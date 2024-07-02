@@ -114,6 +114,9 @@ export const openaiSSE = async (req: Request, res: Response) => {
           },
         ],
       };
+      console.log('completion',completion);
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
       return res.status(200).json(completion);
 
   } catch (e) {
