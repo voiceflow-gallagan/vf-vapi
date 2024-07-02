@@ -31,7 +31,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
 
       const completionStream = await openai.chat.completions.create({
         model: model || 'gpt-4o',
-        //...restParams,
+        ...restParams,
         messages, //: [{ role: 'user', content: lastMessage.content }], //modifiedMessage,
         max_tokens: max_tokens || 150,
         temperature: temperature || 0.7,
@@ -49,7 +49,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
     } else {
       const completion = await openai.chat.completions.create({
         model: model || 'gpt-4o',
-        //...restParams,
+        ...restParams,
         messages, //[{ role: 'user', content: lastMessage.content }],
         max_tokens: max_tokens || 150,
         temperature: temperature || 0.7,
