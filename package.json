@@ -1,0 +1,30 @@
+{
+  "name": "vf-vapi",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "axios": "latest",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "~4.19.2",
+    "openai": "^4.26.1",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "~4.17.13",
+    "@types/node": "~18.16.9",
+    "@typescript-eslint/eslint-plugin": "^6.13.2",
+    "@typescript-eslint/parser": "^6.13.2",
+    "esbuild": "^0.19.2",
+    "eslint": "~8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^2.6.2",
+    "ts-node": "10.9.1",
+    "tsx": "^4.16.0",
+    "typescript": "~5.3.2"
+  }
+}
