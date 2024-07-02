@@ -95,7 +95,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
       }); */
       console.log(completeResponse);
       const completion = {
-        id: "chatcmpl-8mcLf78g0quztp4BMtwd3hEj58Uof",
+        id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
         object: "chat.completion",
         created: Math.floor(Date.now() / 1000),
         model: "tico",
