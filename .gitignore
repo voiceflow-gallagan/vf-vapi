@@ -162,7 +162,7 @@ dist
 .vscode-test
 
 # yarn v2
-
+pnpm-lock.yaml
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
