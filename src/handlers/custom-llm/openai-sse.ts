@@ -27,7 +27,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
     console.log(lastMessage.content);
     console.log(messages);
     console.log('stream', stream);
-    if (stream == 'toto') {
+    if (stream) {
 
       const completionStream = await openai.chat.completions.create({
         model: model || 'gpt-4o',
