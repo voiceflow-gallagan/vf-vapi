@@ -26,10 +26,12 @@ export const openaiSSE = async (req: Request, res: Response) => {
     console.log(messages);
     console.log('stream', stream);
 
+    let userId = call?.customer?.number || call.id
+
     const request = {
       method: 'POST',
       url: `${process.env.VOICEFLOW_API_URL}/state/user/${encodeURI(
-        call.customer.number
+        userId
       )}/interact`,
       headers: {
         Authorization: process.env.VOICEFLOW_API_KEY,
