@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
 
 
-async function* voiceflowToOpenAIStream(voiceflowResponse) {
+async function voiceflowToOpenAIStream(voiceflowResponse, onChunk) {
   let content = '';
   for await (const chunk of voiceflowResponse.body) {
     const lines = chunk.toString().split('\n\n');
@@ -12,26 +12,26 @@ async function* voiceflowToOpenAIStream(voiceflowResponse) {
         const data = JSON.parse(line.slice(5));
         if (data.type === 'trace' && data.trace.type === 'completion-continue') {
           content += data.trace.payload.completion;
-          yield JSON.stringify({
+          onChunk(JSON.stringify({
             choices: [{
               delta: { content: data.trace.payload.completion },
               index: 0,
               finish_reason: null
             }]
-          }) + '\n';
+          }) + '\n');
         }
       }
     }
   }
 
   // Final message
-  yield JSON.stringify({
+  onChunk(JSON.stringify({
     choices: [{
       delta: {},
       index: 0,
       finish_reason: 'stop'
     }]
-  }) + '\n';
+  }) + '\n');
 }
 
 export const openaiSSE = async (req: Request, res: Response) => {
@@ -81,6 +81,8 @@ export const openaiSSE = async (req: Request, res: Response) => {
         throw new Error(`Voiceflow API responded with status ${voiceflowResponse.status}`);
       }
 
+      console.log('Voiceflow Response:', voiceflowResponse);
+
       res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -90,11 +92,13 @@ export const openaiSSE = async (req: Request, res: Response) => {
       const stream = new PassThrough();
       stream.pipe(res);
 
-      for await (const chunk of voiceflowToOpenAIStream(voiceflowResponse)) {
+      await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
+        console.log('Chunk:', chunk);
         stream.write(`data: ${chunk}\n\n`);
-      }
+      });
 
       stream.end();
+
     } catch (error) {
       console.error('Error:', error);
       res.status(500).json({ error: 'An error occurred while processing your request.' });
