@@ -1,9 +1,42 @@
 import { Request, Response } from 'express';
+//import fetch = require('node-fetch');
+import { PassThrough } from 'stream';
 import OpenAI from 'openai';
 import { envConfig } from '../../config/env.config';
 import axios from 'axios';
 
-const openai = new OpenAI({ apiKey: envConfig.openai.apiKey });
+// const openai = new OpenAI({ apiKey: envConfig.openai.apiKey });
+
+async function* voiceflowToOpenAIStream(voiceflowResponse) {
+  let content = '';
+  for await (const chunk of voiceflowResponse.body) {
+    const lines = chunk.toString().split('\n\n');
+    for (const line of lines) {
+      if (line.startsWith('data:')) {
+        const data = JSON.parse(line.slice(5));
+        if (data.type === 'trace' && data.trace.type === 'completion-continue') {
+          content += data.trace.payload.completion;
+          yield JSON.stringify({
+            choices: [{
+              delta: { content: data.trace.payload.completion },
+              index: 0,
+              finish_reason: null
+            }]
+          }) + '\n';
+        }
+      }
+    }
+  }
+
+  // Final message
+  yield JSON.stringify({
+    choices: [{
+      delta: {},
+      index: 0,
+      finish_reason: 'stop'
+    }]
+  }) + '\n';
+}
 
 export const openaiSSE = async (req: Request, res: Response) => {
   try {
@@ -20,111 +53,56 @@ export const openaiSSE = async (req: Request, res: Response) => {
     delete restParams.metadata;
 
     console.log(req.body);
-    const lastMessage = messages?.[messages.length - 1];
+    const voiceflowUrl = 'https://general-runtime.voiceflow.com/v2beta1/interact/66854b1150071d75d0bdd702/development/stream';
+  const voiceflowHeaders = {
+    'Accept': 'text/event-stream',
+    'Authorization': 'VF.DM.66854b63a012b6c03983587f.2guwZJauMOEnwceM',
+    'Content-Type': 'application/json'
+  };
 
-    console.log(lastMessage.content);
-    console.log(messages);
-    console.log('stream', stream);
-
-    let userId = call?.customer?.number || call.id
-
-    const request = {
-      method: 'POST',
-      url: `${process.env.VOICEFLOW_API_URL}/state/user/${encodeURI(
-        userId
-      )}/interact`,
-      headers: {
-        Authorization: process.env.VOICEFLOW_API_KEY,
-        //sessionID: session,
-        versionID: process.env.VOICEFLOW_VERSION_ID,
-      },
-      data: {
-        action :{
-          type: 'text',
-          payload: lastMessage.content,
-        },
-        state: {
-          variables: {
-            context: JSON.stringify(messages),
-          },
-        },
-        config: { tts: false, stripSSML: true, stopTypes: ['DTMF'] },
-      },
-    }
-    const response = await axios(request)
-    console.log('response', response.data)
-
-    let completeResponse = ''
-    for (const trace of response.data) {
-      switch (trace.type) {
-        case 'text':
-        case 'speak': {
-          if (trace.payload?.src) {
-            if (trace.payload.src.startsWith('data:')) {
-              const base64Data = trace.payload.src.split(',')[1]
-              const audioBuffer = Buffer.from(base64Data, 'base64')
-              //this.emit('audio', audioBuffer)
-            } else {
-              //this.emit('audio', trace.payload.src)
-            }
-          } else {
-            completeResponse += trace.payload.message + " "
-            //partialResponse += trace.payload.message
-            // agent.say(trace.payload.message)
-          }
-          break
-        }
-        case 'end': {
-          /* saveTranscript(caller, true)
-          twiml.hangup() */
-          break
-        }
-        default: {
-          console.log('Unknown trace type', trace)
-        }
+  const voiceflowBody = {
+    action: {
+      type: 'intent',
+      payload: {
+        intent: { name: 'receive_message' },
+        query: req.body.messages[req.body.messages.length - 1].content
       }
+    },
+    session: {
+      userID: '1234',
+      sessionID: 'session_123'
+    }
+  };
+
+  try {
+    const voiceflowResponse = await fetch(voiceflowUrl, {
+      method: 'POST',
+      headers: voiceflowHeaders,
+      body: JSON.stringify(voiceflowBody)
+    });
+
+    if (!voiceflowResponse.ok) {
+      throw new Error(`Voiceflow API responded with status ${voiceflowResponse.status}`);
     }
 
-      const completion = await openai.chat.completions.create({
-        model: model || 'gpt-3.5-turbo-0613',
-        ...restParams,
-        messages, //[{ role: 'user', content: lastMessage.content }],
-        max_tokens: max_tokens || 150,
-        temperature: temperature || 0.7,
-        stream: false,
-      });
-      console.log(completeResponse);
-      /* const completion = {
-        id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
-        object: "chat.completion",
-        created: Math.floor(Date.now() / 1000),
-        model: "gpt-3.5-turbo-0613",
-        system_fingerprint: null,
-        usage: {
-          prompt_tokens: 13,
-          completion_tokens: 7,
-          total_tokens: 20
-        },
-        choices: [
-          {
-            index: 0,
-            //delta: { content: messages?.[messages.length - 1]?.content ?? "" },
-            //delta: { content: completeResponse },
-            message: {
-              content: completeResponse,
-              role: "assistant"
-            },
-            logprobs: null,
-            finish_reason: "stop",
-          },
-        ],
-      }; */
-      console.log('completion', JSON.stringify(completion, null, 2));
-      //res.setHeader('Content-Type', 'text/event-stream');
-      res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Cache-Control', 'no-cache');
-      res.setHeader('Connection', 'keep-alive');
-      return res.status(200).json(completion);
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream',
+      'Cache-Control': 'no-cache',
+      'Connection': 'keep-alive'
+    });
+
+    const stream = new PassThrough();
+    stream.pipe(res);
+
+    for await (const chunk of voiceflowToOpenAIStream(voiceflowResponse)) {
+      stream.write(`data: ${chunk}\n\n`);
+    }
+
+    stream.end();
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An error occurred while processing your request.' });
+  }
 
   } catch (e) {
     console.log(e);
