@@ -5,13 +5,16 @@ import { PassThrough } from 'stream';
 
 async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   let content = '';
+  let buffer = '';
   console.log('Voiceflow response status:', voiceflowResponse.status);
   console.log('Voiceflow response headers:', voiceflowResponse.headers);
 
   return new Promise<void>((resolve, reject) => {
     voiceflowResponse.body.on('data', (chunk) => {
       const chunkStr = chunk.toString();
-      const lines = chunkStr.split('\n');
+      buffer += chunkStr;
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
 
       for (const line of lines) {
         if (line.trim() === '') continue;
@@ -42,6 +45,9 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
     });
 
     voiceflowResponse.body.on('end', () => {
+      if (buffer) {
+        console.warn('Unprocessed data in buffer:', buffer);
+      }
       console.log('Final content:', content);
       onChunk({
         choices: [{
