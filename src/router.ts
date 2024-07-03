@@ -9,4 +9,6 @@ router.post(
   customLLMHandler.openaiSSE
 );
 
+router.post('/custom-llm/stream/chat/completions', customLLMHandler.streamDM);
+
 export { router };

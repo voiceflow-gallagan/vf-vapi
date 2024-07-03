@@ -158,7 +158,7 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   });
 }
 
-export const openaiSSE = async (req: Request, res: Response) => {
+export const streamDM = async (req: Request, res: Response) => {
   try {
     const {
       model,
@@ -218,14 +218,15 @@ export const openaiSSE = async (req: Request, res: Response) => {
 
       await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
         console.log('Write Chunk:', JSON.stringify(chunk, null, 2));
-        stream.write(`data: ${chunk}\n\n`);
+        stream.write(`data: ${JSON.stringify(chunk)}\n\n`);
       });
 
       stream.end();
 
     } catch (error) {
       console.error('Error:', error);
-      res.status(500).json({ error: 'An error occurred while processing your request.' });
+      stream.write(`data: ${JSON.stringify({ error: 'An error occurred while processing your request.' })}\n\n`);
+stream.end();
     }
   } catch (e) {
     console.log('Error:', e);
