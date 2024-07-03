@@ -3,7 +3,7 @@ import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
 
 
-async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
+/* async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   let content = '';
   let buffer = '';
   console.log('Voiceflow response status:', voiceflowResponse.status);
@@ -56,6 +56,98 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
           finish_reason: 'stop'
         }]
       });
+      resolve();
+    });
+
+    voiceflowResponse.body.on('error', (error) => {
+      console.error('Error reading Voiceflow response:', error);
+      reject(error);
+    });
+  });
+} */
+
+async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
+  let content = '';
+  let buffer = '';
+  let isCompletionStarted = false;
+
+  console.log('Voiceflow response status:', voiceflowResponse.status);
+  console.log('Voiceflow response headers:', voiceflowResponse.headers);
+
+  return new Promise<void>((resolve, reject) => {
+    voiceflowResponse.body.on('data', (chunk) => {
+      const chunkStr = chunk.toString();
+      buffer += chunkStr;
+
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (line.trim() === '') continue;
+
+        if (line.startsWith('data:')) {
+          const jsonData = line.slice(5).trim();
+          try {
+            const data = JSON.parse(jsonData);
+            if (data.type === 'trace') {
+              switch (data.trace.type) {
+                case 'completion-start':
+                  isCompletionStarted = true;
+                  onChunk({
+                    choices: [{
+                      delta: { content: '' },
+                      index: 0,
+                      finish_reason: null
+                    }]
+                  });
+                  break;
+                case 'completion-continue':
+                  if (isCompletionStarted) {
+                    content += data.trace.payload.completion;
+                    onChunk({
+                      choices: [{
+                        delta: { content: data.trace.payload.completion },
+                        index: 0,
+                        finish_reason: null
+                      }]
+                    });
+                  }
+                  break;
+                case 'completion-end':
+                  if (isCompletionStarted) {
+                    onChunk({
+                      choices: [{
+                        delta: {},
+                        index: 0,
+                        finish_reason: 'stop'
+                      }]
+                    });
+                    isCompletionStarted = false;
+                  }
+                  break;
+              }
+            }
+          } catch (error) {
+            console.warn('Error parsing JSON:', error, 'Raw data:', jsonData);
+          }
+        }
+      }
+    });
+
+    voiceflowResponse.body.on('end', () => {
+      if (buffer) {
+        console.warn('Unprocessed data in buffer:', buffer);
+      }
+      console.log('Final content:', content);
+      if (isCompletionStarted) {
+        onChunk({
+          choices: [{
+            delta: {},
+            index: 0,
+            finish_reason: 'stop'
+          }]
+        });
+      }
       resolve();
     });
 
