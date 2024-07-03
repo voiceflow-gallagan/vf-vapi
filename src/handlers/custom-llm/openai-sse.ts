@@ -23,9 +23,9 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
           try {
             const data = JSON.parse(jsonData);
             if (data.type === 'trace' && data.trace.type === 'completion-continue') {
-              console.log('Raw chunk:', chunkStr);
+              //console.log('Raw chunk:', chunkStr);
               content += data.trace.payload.completion;
-              console.log('Content:', content);
+              //console.log('Content:', content);
               onChunk({
                 choices: [{
                   delta: { content: data.trace.payload.completion },
@@ -119,7 +119,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
       stream.pipe(res);
 
       await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
-        console.log('Write Chunk:', chunk);
+        console.log('Write Chunk:', JSON.stringify(chunk, null, 2));
         stream.write(`data: ${chunk}\n\n`);
       });
 
