@@ -5,24 +5,36 @@ import { PassThrough } from 'stream';
 
 async function voiceflowToOpenAIStream(voiceflowResponse, onChunk) {
   let content = '';
+  console.log('Voiceflow response status:', voiceflowResponse.status);
+  console.log('Voiceflow response headers:', voiceflowResponse.headers);
+
   for await (const chunk of voiceflowResponse.body) {
+    console.log('Raw chunk:', chunk.toString());
     const lines = chunk.toString().split('\n\n');
     for (const line of lines) {
+      console.log('Processing line:', line);
       if (line.startsWith('data:')) {
-        const data = JSON.parse(line.slice(5));
-        if (data.type === 'trace' && data.trace.type === 'completion-continue') {
-          content += data.trace.payload.completion;
-          onChunk(JSON.stringify({
-            choices: [{
-              delta: { content: data.trace.payload.completion },
-              index: 0,
-              finish_reason: null
-            }]
-          }) + '\n');
+        try {
+          const data = JSON.parse(line.slice(5));
+          console.log('Parsed data:', data);
+          if (data.type === 'trace' && data.trace.type === 'completion-continue') {
+            content += data.trace.payload.completion;
+            onChunk(JSON.stringify({
+              choices: [{
+                delta: { content: data.trace.payload.completion },
+                index: 0,
+                finish_reason: null
+              }]
+            }) + '\n');
+          }
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
         }
       }
     }
   }
+
+  console.log('Final content:', content);
 
   // Final message
   onChunk(JSON.stringify({
