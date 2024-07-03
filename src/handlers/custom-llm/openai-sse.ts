@@ -1,162 +1,8 @@
 import { Request, Response } from 'express';
-import fetch from 'node-fetch';
-import { PassThrough } from 'stream';
+import OpenAI from 'openai';
+import { envConfig } from '../../config/env.config';
 
-
-/* async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
-  let content = '';
-  let buffer = '';
-  console.log('Voiceflow response status:', voiceflowResponse.status);
-  console.log('Voiceflow response headers:', voiceflowResponse.headers);
-
-  return new Promise<void>((resolve, reject) => {
-    voiceflowResponse.body.on('data', (chunk) => {
-      const chunkStr = chunk.toString();
-      buffer += chunkStr;
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        if (line.trim() === '') continue;
-
-        //console.log('Processing line:', line);
-
-        if (line.startsWith('data:')) {
-          const jsonData = line.slice(5).trim();
-          try {
-            const data = JSON.parse(jsonData);
-            if (data.type === 'trace' && data.trace.type === 'completion-continue') {
-              //console.log('Raw chunk:', chunkStr);
-              content += data.trace.payload.completion;
-              //console.log('Content:', content);
-              onChunk({
-                choices: [{
-                  delta: { content: data.trace.payload.completion },
-                  index: 0,
-                  finish_reason: null
-                }]
-              });
-            }
-          } catch (error) {
-            console.warn('Error parsing JSON:', error, 'Raw data:', jsonData);
-          }
-        }
-      }
-    });
-
-    voiceflowResponse.body.on('end', () => {
-      if (buffer) {
-        console.warn('Unprocessed data in buffer:', buffer);
-      }
-      console.log('Final content:', content);
-      onChunk({
-        choices: [{
-          delta: {},
-          index: 0,
-          finish_reason: 'stop'
-        }]
-      });
-      resolve();
-    });
-
-    voiceflowResponse.body.on('error', (error) => {
-      console.error('Error reading Voiceflow response:', error);
-      reject(error);
-    });
-  });
-} */
-
-async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
-  let content = '';
-  let buffer = '';
-  let isCompletionStarted = false;
-
-  console.log('Voiceflow response status:', voiceflowResponse.status);
-  console.log('Voiceflow response headers:', voiceflowResponse.headers);
-
-  return new Promise<void>((resolve, reject) => {
-    voiceflowResponse.body.on('data', (chunk) => {
-      const chunkStr = chunk.toString();
-      buffer += chunkStr;
-
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        if (line.trim() === '') continue;
-
-        if (line.startsWith('data:')) {
-          const jsonData = line.slice(5).trim();
-          try {
-            const data = JSON.parse(jsonData);
-            if (data.type === 'trace') {
-              switch (data.trace.type) {
-                case 'completion-start':
-                  isCompletionStarted = true;
-                  onChunk({
-                    choices: [{
-                      delta: { content: '' },
-                      index: 0,
-                      finish_reason: null
-                    }]
-                  });
-                  break;
-                case 'completion-continue':
-                  if (isCompletionStarted) {
-                    content += data.trace.payload.completion;
-                    onChunk({
-                      choices: [{
-                        delta: { content: data.trace.payload.completion },
-                        index: 0,
-                        finish_reason: null
-                      }]
-                    });
-                  }
-                  break;
-                case 'completion-end':
-                  if (isCompletionStarted) {
-                    onChunk({
-                      choices: [{
-                        delta: {},
-                        index: 0,
-                        finish_reason: 'stop'
-                      }]
-                    });
-                    isCompletionStarted = false;
-                  }
-                  break;
-              }
-            }
-          } catch (error) {
-            console.warn('Error parsing JSON:', error, 'Raw data:', jsonData);
-          }
-        }
-      }
-    });
-
-    voiceflowResponse.body.on('end', () => {
-      if (buffer) {
-        console.warn('Unprocessed data in buffer:', buffer);
-      }
-      console.log('Final content:', content);
-      if (isCompletionStarted) {
-        onChunk({
-          choices: [{
-            delta: {},
-            index: 0,
-            finish_reason: 'stop'
-          }]
-        });
-      }
-      resolve();
-    });
-
-    voiceflowResponse.body.on('error', (error) => {
-      console.error('Error reading Voiceflow response:', error);
-      reject(error);
-    });
-  });
-}
+const openai = new OpenAI({ apiKey: envConfig.openai.apiKey });
 
 export const openaiSSE = async (req: Request, res: Response) => {
   try {
@@ -170,65 +16,50 @@ export const openaiSSE = async (req: Request, res: Response) => {
       ...restParams
     } = req.body;
 
-    // delete restParams.metadata;
+    delete restParams.metadata;
 
-    // console.log(req.body);
-    const voiceflowUrl = 'https://general-runtime.voiceflow.com/v2beta1/interact/66854b1150071d75d0bdd702/development/stream';
-    const voiceflowHeaders = {
-      'Accept': 'text/event-stream',
-      'Authorization': 'VF.DM.66854b63a012b6c03983587f.2guwZJauMOEnwceM',
-      'Content-Type': 'application/json'
-    };
-    console.log('Message:', req.body.messages[req.body.messages.length - 1].content);
-    const voiceflowBody = {
-      action: {
-        type: 'intent',
-        payload: {
-          intent: { name: 'receive_message' },
-          query: req.body.messages[req.body.messages.length - 1].content
-        }
-      },
-      session: {
-        userID: '12345',
-        sessionID: 'session_1234'
+    console.log(req.body);
+    const lastMessage = messages?.[messages.length - 1];
+    const modifiedMessage = [
+      // ...messages.slice(0, messages.length - 1),
+      { ...lastMessage, content: lastMessage.content },
+    ];
+    console.log(lastMessage.content);
+    console.log(messages);
+    console.log('stream', stream);
+    if (stream) {
+
+      const completionStream = await openai.chat.completions.create({
+        model: model || 'gpt-4o',
+        ...restParams,
+        messages, //: [{ role: 'user', content: lastMessage.content }], //modifiedMessage,
+        max_tokens: max_tokens || 150,
+        temperature: temperature || 0.7,
+        stream: true,
+      } as OpenAI.Chat.ChatCompletionCreateParamsStreaming);
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      for await (const data of completionStream) {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
       }
-    };
-
-    try {
-      const voiceflowResponse = await fetch(voiceflowUrl, {
-        method: 'POST',
-        headers: voiceflowHeaders,
-        body: JSON.stringify(voiceflowBody)
+      res.end();
+    } else {
+      const completion = await openai.chat.completions.create({
+        model: model || 'gpt-4o',
+        ...restParams,
+        messages, //[{ role: 'user', content: lastMessage.content }],
+        max_tokens: max_tokens || 150,
+        temperature: temperature || 0.7,
+        stream: false,
       });
-
-      if (!voiceflowResponse.ok) {
-        throw new Error(`Voiceflow API responded with status ${voiceflowResponse.status}`);
-      }
-
-      // console.log('Voiceflow Response:', voiceflowResponse);
-
-      res.writeHead(200, {
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
-      });
-
-      const stream = new PassThrough();
-      stream.pipe(res);
-
-      await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
-        console.log('Write Chunk:', JSON.stringify(chunk, null, 2));
-        stream.write(`data: ${chunk}\n\n`);
-      });
-
-      stream.end();
-
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'An error occurred while processing your request.' });
+      console.log(completion);
+      return res.status(200).json(completion);
     }
   } catch (e) {
-    console.log('Error:', e);
+    console.log(e);
     res.status(500).json({ error: e });
   }
 };
