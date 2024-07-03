@@ -104,11 +104,11 @@ export const openaiSSE = async (req: Request, res: Response) => {
           {
             index: 0,
             //delta: { content: messages?.[messages.length - 1]?.content ?? "" },
-            delta: { content: completeResponse },
-            /* messages: {
+            //delta: { content: completeResponse },
+            message: {
               content: completeResponse,
               role: "assistant"
-            }, */
+            },
             logprobs: null,
             finish_reason: "stop",
           },
