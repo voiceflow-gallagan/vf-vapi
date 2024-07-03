@@ -3,56 +3,59 @@ import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
 
 
-async function voiceflowToOpenAIStream(voiceflowResponse, onChunk) {
+async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   let content = '';
   console.log('Voiceflow response status:', voiceflowResponse.status);
   console.log('Voiceflow response headers:', voiceflowResponse.headers);
 
-  const reader = voiceflowResponse.body.getReader();
-  const decoder = new TextDecoder();
+  return new Promise<void>((resolve, reject) => {
+    voiceflowResponse.body.on('data', (chunk) => {
+      const chunkStr = chunk.toString();
+      console.log('Raw chunk:', chunkStr);
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
+      const lines = chunkStr.split('\n');
+      for (const line of lines) {
+        if (line.trim() === '') continue;
 
-    const chunk = decoder.decode(value, { stream: true });
-    console.log('Raw chunk:', chunk);
+        console.log('Processing line:', line);
 
-    const lines = chunk.split('\n');
-    for (const line of lines) {
-      if (line.trim() === '') continue;
-
-      console.log('Processing line:', line);
-
-      if (line.startsWith('data:')) {
-        const jsonData = line.slice(5).trim();
-        try {
-          const data = JSON.parse(jsonData);
-          if (data.type === 'trace' && data.trace.type === 'completion-continue') {
-            content += data.trace.payload.completion;
-            onChunk({
-              choices: [{
-                delta: { content: data.trace.payload.completion },
-                index: 0,
-                finish_reason: null
-              }]
-            });
+        if (line.startsWith('data:')) {
+          const jsonData = line.slice(5).trim();
+          try {
+            const data = JSON.parse(jsonData);
+            if (data.type === 'trace' && data.trace.type === 'completion-continue') {
+              content += data.trace.payload.completion;
+              onChunk({
+                choices: [{
+                  delta: { content: data.trace.payload.completion },
+                  index: 0,
+                  finish_reason: null
+                }]
+              });
+            }
+          } catch (error) {
+            console.error('Error parsing JSON:', error);
           }
-        } catch (error) {
-          console.error('Error parsing JSON:', error);
         }
       }
-    }
-  }
+    });
 
-  console.log('Final content:', content);
+    voiceflowResponse.body.on('end', () => {
+      console.log('Final content:', content);
+      onChunk({
+        choices: [{
+          delta: {},
+          index: 0,
+          finish_reason: 'stop'
+        }]
+      });
+      resolve();
+    });
 
-  onChunk({
-    choices: [{
-      delta: {},
-      index: 0,
-      finish_reason: 'stop'
-    }]
+    voiceflowResponse.body.on('error', (error) => {
+      console.error('Error reading Voiceflow response:', error);
+      reject(error);
+    });
   });
 }
 
