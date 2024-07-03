@@ -43,6 +43,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
       res.setHeader('Connection', 'keep-alive');
 
       for await (const data of completionStream) {
+        console.log('Data:', data);
         res.write(`data: ${JSON.stringify(data)}\n\n`);
       }
       res.end();
