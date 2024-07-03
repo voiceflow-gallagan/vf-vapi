@@ -11,20 +11,21 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   return new Promise<void>((resolve, reject) => {
     voiceflowResponse.body.on('data', (chunk) => {
       const chunkStr = chunk.toString();
-      console.log('Raw chunk:', chunkStr);
 
       const lines = chunkStr.split('\n');
       for (const line of lines) {
         if (line.trim() === '') continue;
 
-        console.log('Processing line:', line);
+        //console.log('Processing line:', line);
 
         if (line.startsWith('data:')) {
           const jsonData = line.slice(5).trim();
           try {
             const data = JSON.parse(jsonData);
             if (data.type === 'trace' && data.trace.type === 'completion-continue') {
+              console.log('Raw chunk:', chunkStr);
               content += data.trace.payload.completion;
+              console.log('Content:', content);
               onChunk({
                 choices: [{
                   delta: { content: data.trace.payload.completion },
@@ -73,7 +74,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
 
     // delete restParams.metadata;
 
-    console.log(req.body);
+    // console.log(req.body);
     const voiceflowUrl = 'https://general-runtime.voiceflow.com/v2beta1/interact/66854b1150071d75d0bdd702/development/stream';
     const voiceflowHeaders = {
       'Accept': 'text/event-stream',
@@ -90,8 +91,8 @@ export const openaiSSE = async (req: Request, res: Response) => {
         }
       },
       session: {
-        userID: '1234',
-        sessionID: 'session_123'
+        userID: '12345',
+        sessionID: 'session_1234'
       }
     };
 
@@ -118,7 +119,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
       stream.pipe(res);
 
       await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
-        console.log('Chunk:', chunk);
+        console.log('Write Chunk:', chunk);
         stream.write(`data: ${chunk}\n\n`);
       });
 
