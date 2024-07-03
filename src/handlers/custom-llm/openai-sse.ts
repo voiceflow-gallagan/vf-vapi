@@ -11,8 +11,8 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   return new Promise<void>((resolve, reject) => {
     voiceflowResponse.body.on('data', (chunk) => {
       const chunkStr = chunk.toString();
-
       const lines = chunkStr.split('\n');
+
       for (const line of lines) {
         if (line.trim() === '') continue;
 
@@ -35,7 +35,7 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
               });
             }
           } catch (error) {
-            console.error('Error parsing JSON:', error);
+            console.warn('Error parsing JSON:', error, 'Raw data:', jsonData);
           }
         }
       }
