@@ -85,21 +85,26 @@ export const openaiSSE = async (req: Request, res: Response) => {
       }
     }
 
-      /* const completion = await openai.chat.completions.create({
-        model: model || 'gpt-4o',
-        //...restParams,
+      const completion = await openai.chat.completions.create({
+        model: model || 'gpt-3.5-turbo-0613',
+        ...restParams,
         messages, //[{ role: 'user', content: lastMessage.content }],
         max_tokens: max_tokens || 150,
         temperature: temperature || 0.7,
         stream: false,
-      }); */
+      });
       console.log(completeResponse);
-      const completion = {
+      /* const completion = {
         id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
         object: "chat.completion",
         created: Math.floor(Date.now() / 1000),
         model: "gpt-3.5-turbo-0613",
         system_fingerprint: null,
+        usage: {
+          prompt_tokens: 13,
+          completion_tokens: 7,
+          total_tokens: 20
+        },
         choices: [
           {
             index: 0,
@@ -113,7 +118,7 @@ export const openaiSSE = async (req: Request, res: Response) => {
             finish_reason: "stop",
           },
         ],
-      };
+      }; */
       console.log('completion',completion);
       //res.setHeader('Content-Type', 'text/event-stream');
       //res.setHeader('Cache-Control', 'no-cache');
