@@ -8,24 +8,35 @@ async function voiceflowToOpenAIStream(voiceflowResponse, onChunk) {
   console.log('Voiceflow response status:', voiceflowResponse.status);
   console.log('Voiceflow response headers:', voiceflowResponse.headers);
 
-  for await (const chunk of voiceflowResponse.body) {
-    console.log('Raw chunk:', chunk.toString());
-    const lines = chunk.toString().split('\n\n');
+  const reader = voiceflowResponse.body.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    console.log('Raw chunk:', chunk);
+
+    const lines = chunk.split('\n');
     for (const line of lines) {
+      if (line.trim() === '') continue;
+
       console.log('Processing line:', line);
+
       if (line.startsWith('data:')) {
+        const jsonData = line.slice(5).trim();
         try {
-          const data = JSON.parse(line.slice(5));
-          console.log('Parsed data:', data);
+          const data = JSON.parse(jsonData);
           if (data.type === 'trace' && data.trace.type === 'completion-continue') {
             content += data.trace.payload.completion;
-            onChunk(JSON.stringify({
+            onChunk({
               choices: [{
                 delta: { content: data.trace.payload.completion },
                 index: 0,
                 finish_reason: null
               }]
-            }) + '\n');
+            });
           }
         } catch (error) {
           console.error('Error parsing JSON:', error);
@@ -36,14 +47,13 @@ async function voiceflowToOpenAIStream(voiceflowResponse, onChunk) {
 
   console.log('Final content:', content);
 
-  // Final message
-  onChunk(JSON.stringify({
+  onChunk({
     choices: [{
       delta: {},
       index: 0,
       finish_reason: 'stop'
     }]
-  }) + '\n');
+  });
 }
 
 export const openaiSSE = async (req: Request, res: Response) => {
