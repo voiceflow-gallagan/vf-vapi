@@ -169,14 +169,15 @@ export const streamDM = async (req: Request, res: Response) => {
       stream,
       ...restParams
     } = req.body;
-
+    const userID = call?.customer?.number || call.id
+    const sessionID = `session_${Math.floor(Date.now() / 1000)}`
     // delete restParams.metadata;
 
-    // console.log(req.body);
-    const voiceflowUrl = 'https://general-runtime.voiceflow.com/v2beta1/interact/66854b1150071d75d0bdd702/development/stream';
+    console.log(req.body);
+    const voiceflowUrl = `${process.env.VOICEFLOW_API_URL}/v2beta1/interact/${process.env.VOICEFLOW_PROJECT_ID}/${process.env.VOICEFLOW_VERSION_ID}/stream`;
     const voiceflowHeaders = {
       'Accept': 'text/event-stream',
-      'Authorization': 'VF.DM.66854b63a012b6c03983587f.2guwZJauMOEnwceM',
+      'Authorization': process.env.VOICEFLOW_API_KEY,
       'Content-Type': 'application/json'
     };
     console.log('Message:', req.body.messages[req.body.messages.length - 1].content);
@@ -189,8 +190,8 @@ export const streamDM = async (req: Request, res: Response) => {
         }
       },
       session: {
-        userID: '12345',
-        sessionID: 'session_1234'
+        userID,
+        sessionID
       }
     };
 
@@ -226,7 +227,7 @@ export const streamDM = async (req: Request, res: Response) => {
     } catch (error) {
       console.error('Error:', error);
       stream.write(`data: ${JSON.stringify({ error: 'An error occurred while processing your request.' })}\n\n`);
-stream.end();
+      stream.end();
     }
   } catch (e) {
     console.log('Error:', e);
