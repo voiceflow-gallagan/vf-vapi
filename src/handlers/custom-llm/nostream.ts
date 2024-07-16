@@ -15,7 +15,7 @@ export const nostreamDM = async (req: Request, res: Response) => {
 
     delete restParams.metadata;
 
-    //console.log(req.body);
+    console.log(req.body);
     const lastMessage = messages?.[messages.length - 1];
 
     //console.log(lastMessage.content);
