@@ -1,6 +1,61 @@
 import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
+import axios from 'axios';
+
+const conversationStates = new Map<string, boolean>();
+
+const getVoiceflowDomain = () => {
+  const customDomain = process.env.VOICEFLOW_DOMAIN;
+  return customDomain ? `${customDomain}.general-runtime.voiceflow.com` : 'general-runtime.voiceflow.com';
+};
+
+const getTranscriptsDomain = () => {
+  const customDomain = process.env.VOICEFLOW_DOMAIN;
+  return customDomain ? `api.${customDomain}.voiceflow.com` : 'api.voiceflow.com';
+};
+
+async function deleteUserState(user) {
+  const request = {
+    method: 'DELETE',
+    url: `https://${getVoiceflowDomain()}/state/user/${encodeURI(
+      user
+    )}`,
+    headers: {
+      Authorization: process.env.VOICEFLOW_API_KEY,
+      versionID: process.env.VOICEFLOW_VERSION_ID,
+    },
+  }
+  const response = await axios(request)
+  return response
+}
+
+async function saveTranscript(user) {
+
+    axios({
+      method: 'put',
+      url: `https://${getTranscriptsDomain()}/v2/transcripts`,
+      data: {
+        browser: 'VAPI',
+        device: 'Phone',
+        os: 'VAPI',
+        sessionID: user,
+        unread: true,
+        versionID: process.env.VOICEFLOW_VERSION_ID,
+        projectID: process.env.VOICEFLOW_PROJECT_ID,
+        user: {
+          name: user,
+          image:
+            'https://s3.amazonaws.com/com.voiceflow.studio/share/twilio-logo-png-transparent/twilio-logo-png-transparent.png',
+        },
+      },
+      headers: {
+        Authorization: process.env.VOICEFLOW_API_KEY,
+      },
+    })
+      .catch((err) => console.log(err))
+
+}
 
 async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   let content = '';
@@ -94,18 +149,21 @@ async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
 export const streamDM = async (req: Request, res: Response) => {
   try {
     const {
-      model,
+      //model,
       messages,
-      max_tokens,
-      temperature,
+      //max_tokens,
+      //temperature,
       call,
+      tools,
       stream,
     } = req.body;
     const userID = call?.customer?.number || call.id
+    const isNewConversation = !conversationStates.has(call.id);
+    conversationStates.set(call.id, true);
     const sessionID = `session_${Math.floor(Date.now() / 1000)}`
     // delete restParams.metadata;
 
-    const voiceflowUrl = `${process.env.VOICEFLOW_API_URL}/v2beta1/interact/${process.env.VOICEFLOW_PROJECT_ID}/${process.env.VOICEFLOW_VERSION_ID}/stream`;
+    const voiceflowUrl = `https://${getVoiceflowDomain()}/v2beta1/interact/${process.env.VOICEFLOW_PROJECT_ID}/${process.env.VOICEFLOW_VERSION_ID}/stream`;
     const voiceflowHeaders = {
       'Accept': 'text/event-stream',
       'Authorization': process.env.VOICEFLOW_API_KEY,
@@ -114,11 +172,8 @@ export const streamDM = async (req: Request, res: Response) => {
 
     const voiceflowBody = {
       action: {
-        type: 'intent',
-        payload: {
-          intent: { name: 'receive_message' },
-          query: req.body.messages[req.body.messages.length - 1].content
-        }
+        type: 'text',
+        payload: req.body.messages[req.body.messages.length - 1].content
       },
       session: {
         userID,

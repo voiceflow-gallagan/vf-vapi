@@ -3,10 +3,20 @@ import axios from 'axios';
 
 const conversationStates = new Map<string, boolean>();
 
+const getVoiceflowDomain = () => {
+  const customDomain = process.env.VOICEFLOW_DOMAIN;
+  return customDomain ? `${customDomain}.general-runtime.voiceflow.com` : 'general-runtime.voiceflow.com';
+};
+
+const getTranscriptsDomain = () => {
+  const customDomain = process.env.VOICEFLOW_DOMAIN;
+  return customDomain ? `api.${customDomain}.voiceflow.com` : 'api.voiceflow.com';
+};
+
 async function deleteUserState(user) {
   const request = {
     method: 'DELETE',
-    url: `https://general-runtime.voiceflow.com/state/user/${encodeURI(
+    url: `https://${getVoiceflowDomain()}/state/user/${encodeURI(
       user
     )}`,
     headers: {
@@ -22,7 +32,7 @@ async function saveTranscript(user) {
 
     axios({
       method: 'put',
-      url: 'https://api.voiceflow.com/v2/transcripts',
+      url: `https://${getTranscriptsDomain()}/v2/transcripts`,
       data: {
         browser: 'VAPI',
         device: 'Phone',
@@ -67,7 +77,7 @@ export const nostreamDM = async (req: Request, res: Response) => {
 
     const baseRequest = {
       method: 'POST',
-      url: `${process.env.VOICEFLOW_API_URL}/state/user/${encodeURI(userId)}/interact`,
+      url: `https://${getVoiceflowDomain()}/state/user/${encodeURI(userId)}/interact`,
       headers: {
         Authorization: process.env.VOICEFLOW_API_KEY,
         sessionID: userId,
@@ -80,7 +90,6 @@ export const nostreamDM = async (req: Request, res: Response) => {
 
     let response;
     let shouldEndCall = false;
-    let messageshistory = [];
 
     if (isNewConversation) {
       await deleteUserState(userId);
