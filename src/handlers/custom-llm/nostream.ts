@@ -1,79 +1,127 @@
 import { Request, Response } from 'express';
 import axios from 'axios';
 
-export const nostreamDM = async (req: Request, res: Response) => {
-  try {
-    const {
-      model,
-      messages,
-      max_tokens,
-      temperature,
-      call,
-      stream,
-      ...restParams
-    } = req.body;
+const conversationStates = new Map<string, boolean>();
 
-    delete restParams.metadata;
+async function deleteUserState(user) {
+  const request = {
+    method: 'DELETE',
+    url: `https://general-runtime.voiceflow.com/state/user/${encodeURI(
+      user
+    )}`,
+    headers: {
+      Authorization: process.env.VOICEFLOW_API_KEY,
+      versionID: process.env.VOICEFLOW_VERSION_ID,
+    },
+  }
+  const response = await axios(request)
+  return response
+}
 
-    console.log(req.body);
-    const lastMessage = messages?.[messages.length - 1];
+async function saveTranscript(user) {
 
-    //console.log(lastMessage.content);
-    //console.log(messages);
-    //console.log('stream', stream);
-
-    let userId = call?.customer?.number || call.id
-
-    const request = {
-      method: 'POST',
-      url: `${process.env.VOICEFLOW_API_URL}/state/user/${encodeURI(
-        userId
-      )}/interact`,
+    axios({
+      method: 'put',
+      url: 'https://api.voiceflow.com/v2/transcripts',
+      data: {
+        browser: 'VAPI',
+        device: 'Phone',
+        os: 'VAPI',
+        sessionID: user,
+        unread: true,
+        versionID: process.env.VOICEFLOW_VERSION_ID,
+        projectID: process.env.VOICEFLOW_PROJECT_ID,
+        user: {
+          name: user,
+          image:
+            'https://s3.amazonaws.com/com.voiceflow.studio/share/twilio-logo-png-transparent/twilio-logo-png-transparent.png',
+        },
+      },
       headers: {
         Authorization: process.env.VOICEFLOW_API_KEY,
-        //sessionID: session,
+      },
+    })
+      .catch((err) => console.log(err))
+
+}
+
+export const nostreamDM = async (req: Request, res: Response) => {
+
+  try {
+    const {
+      // model,
+      messages,
+      //max_tokens,
+      //temperature,
+      call,
+      tools,
+      //stream,
+      //...restParams
+    } = req.body;
+
+    const lastMessage = messages?.[messages.length - 1];
+
+    let userId = call?.customer?.number || call.id
+    const isNewConversation = !conversationStates.has(call.id);
+    conversationStates.set(call.id, true);
+
+    const baseRequest = {
+      method: 'POST',
+      url: `${process.env.VOICEFLOW_API_URL}/state/user/${encodeURI(userId)}/interact`,
+      headers: {
+        Authorization: process.env.VOICEFLOW_API_KEY,
+        sessionID: userId,
         versionID: process.env.VOICEFLOW_VERSION_ID,
       },
       data: {
-        action: {
-          type: "intent",
-          payload: {
-            intent: { name: "receive_message"},
-            query: lastMessage.content
-          }
-        },
-        state: {
-          variables: {
-            context: JSON.stringify(messages),
-          },
-        },
         config: { tts: false, stripSSML: true, stopTypes: ['DTMF'] },
       },
+    };
+
+    let response;
+    let shouldEndCall = false;
+    let messageshistory = [];
+
+    if (isNewConversation) {
+      await deleteUserState(userId);
+      response = await axios({
+        ...baseRequest,
+        data: {
+          ...baseRequest.data,
+          action: { type: "launch" },
+        },
+      });
+    } else {
+      response = await axios({
+        ...baseRequest,
+        data: {
+          ...baseRequest.data,
+          action: {
+            type: "text",
+            payload: lastMessage.content,
+          } as { type: string; payload: string },
+        },
+      });
     }
-    const response = await axios(request)
-    console.log('response', response.data)
 
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    let completeResponse = ''
     for (const trace of response.data) {
       switch (trace.type) {
         case 'text':
         case 'speak': {
           if (trace.payload?.message) {
-            completeResponse += trace.payload.message + " ";
-            // Send each part of the message as a separate SSE event
             const chunk = {
               id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
               object: "chat.completion.chunk",
               created: Math.floor(Date.now() / 1000),
-              model: "gpt-4o",
+              model: "dmapi",
               choices: [
                 {
                   index: 0,
-                  delta: { content: trace.payload.message + " " },
+                  delta: { content: trace.payload.message },
                   finish_reason: null,
                 },
               ],
@@ -83,22 +131,8 @@ export const nostreamDM = async (req: Request, res: Response) => {
           break;
         }
         case 'end': {
-          const finalChunk = {
-            id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
-            object: "chat.completion.chunk",
-            created: Math.floor(Date.now() / 1000),
-            model: "gpt-3.5-turbo-0613",
-            choices: [
-              {
-                index: 0,
-                delta: {},
-                finish_reason: 'stop',
-              },
-            ],
-          };
-          res.write(`data: ${JSON.stringify(finalChunk)}\n\n`);
-          res.end();
-          return;
+          shouldEndCall = true;
+          break;
         }
         default: {
           console.log('Unknown trace type', trace)
@@ -106,22 +140,49 @@ export const nostreamDM = async (req: Request, res: Response) => {
       }
     }
   // If there's no 'end' trace, send a final chunk and end the response
-  const finalChunk = {
-    id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
-    object: "chat.completion.chunk",
-    created: Math.floor(Date.now() / 1000),
-    model: "gpt-3.5-turbo-0613",
-    choices: [
-      {
-        index: 0,
-        delta: {},
-        finish_reason: 'stop',
-      },
-    ],
-  };
-  res.write(`data: ${JSON.stringify(finalChunk)}\n\n`);
-  res.end();
+  if (shouldEndCall) {
 
+    const endCallChunk = {
+      id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
+      object: "chat.completion.chunk",
+      created: Math.floor(Date.now() / 1000),
+      model: "dmapi",
+      tools: tools,
+      tool_choice: "endCall",
+      choices: [
+        {
+          index: 0,
+          delta: {
+            content: "Goodbye!",
+            function_call: {
+              name: "endCall",
+              arguments: {}
+            }
+          },
+          finish_reason: "function_call" //null //"tool_calls"
+        }
+      ]
+    };
+    res.write(`data: ${JSON.stringify(endCallChunk)}\n\n`);
+  } else {
+    // If there's no 'end' trace, send a final chunk and end the response
+    const finalChunk = {
+      id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
+      object: "chat.completion.chunk",
+      created: Math.floor(Date.now() / 1000),
+      model: "dmapi",
+      choices: [
+        {
+          index: 0,
+          delta: {},
+          finish_reason: 'stop',
+        },
+      ],
+    };
+    res.write(`data: ${JSON.stringify(finalChunk)}\n\n`);
+  }
+  res.end();
+  saveTranscript(userId)
   } catch (e) {
     console.log(e);
     res.status(500).json({ error: e });

@@ -2,77 +2,10 @@ import { Request, Response } from 'express';
 import fetch from 'node-fetch';
 import { PassThrough } from 'stream';
 
-
-/* async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
-  let content = '';
-  let buffer = '';
-  console.log('Voiceflow response status:', voiceflowResponse.status);
-  console.log('Voiceflow response headers:', voiceflowResponse.headers);
-
-  return new Promise<void>((resolve, reject) => {
-    voiceflowResponse.body.on('data', (chunk) => {
-      const chunkStr = chunk.toString();
-      buffer += chunkStr;
-      const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
-
-      for (const line of lines) {
-        if (line.trim() === '') continue;
-
-        //console.log('Processing line:', line);
-
-        if (line.startsWith('data:')) {
-          const jsonData = line.slice(5).trim();
-          try {
-            const data = JSON.parse(jsonData);
-            if (data.type === 'trace' && data.trace.type === 'completion-continue') {
-              //console.log('Raw chunk:', chunkStr);
-              content += data.trace.payload.completion;
-              //console.log('Content:', content);
-              onChunk({
-                choices: [{
-                  delta: { content: data.trace.payload.completion },
-                  index: 0,
-                  finish_reason: null
-                }]
-              });
-            }
-          } catch (error) {
-            console.warn('Error parsing JSON:', error, 'Raw data:', jsonData);
-          }
-        }
-      }
-    });
-
-    voiceflowResponse.body.on('end', () => {
-      if (buffer) {
-        console.warn('Unprocessed data in buffer:', buffer);
-      }
-      console.log('Final content:', content);
-      onChunk({
-        choices: [{
-          delta: {},
-          index: 0,
-          finish_reason: 'stop'
-        }]
-      });
-      resolve();
-    });
-
-    voiceflowResponse.body.on('error', (error) => {
-      console.error('Error reading Voiceflow response:', error);
-      reject(error);
-    });
-  });
-} */
-
 async function voiceflowToOpenAIStream(voiceflowResponse: any, onChunk: any) {
   let content = '';
   let buffer = '';
   let isCompletionStarted = false;
-
-  console.log('Voiceflow response status:', voiceflowResponse.status);
-  console.log('Voiceflow response headers:', voiceflowResponse.headers);
 
   return new Promise<void>((resolve, reject) => {
     voiceflowResponse.body.on('data', (chunk) => {
@@ -167,20 +100,18 @@ export const streamDM = async (req: Request, res: Response) => {
       temperature,
       call,
       stream,
-      ...restParams
     } = req.body;
     const userID = call?.customer?.number || call.id
     const sessionID = `session_${Math.floor(Date.now() / 1000)}`
     // delete restParams.metadata;
 
-    console.log(req.body);
     const voiceflowUrl = `${process.env.VOICEFLOW_API_URL}/v2beta1/interact/${process.env.VOICEFLOW_PROJECT_ID}/${process.env.VOICEFLOW_VERSION_ID}/stream`;
     const voiceflowHeaders = {
       'Accept': 'text/event-stream',
       'Authorization': process.env.VOICEFLOW_API_KEY,
       'Content-Type': 'application/json'
     };
-    console.log('Message:', req.body.messages[req.body.messages.length - 1].content);
+
     const voiceflowBody = {
       action: {
         type: 'intent',
@@ -206,8 +137,6 @@ export const streamDM = async (req: Request, res: Response) => {
         throw new Error(`Voiceflow API responded with status ${voiceflowResponse.status}`);
       }
 
-      // console.log('Voiceflow Response:', voiceflowResponse);
-
       res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
@@ -218,7 +147,6 @@ export const streamDM = async (req: Request, res: Response) => {
       stream.pipe(res);
 
       await voiceflowToOpenAIStream(voiceflowResponse, (chunk) => {
-        console.log('Write Chunk:', JSON.stringify(chunk, null, 2));
         stream.write(`data: ${JSON.stringify(chunk)}\n\n`);
       });
 
