@@ -1,4 +1,5 @@
 # vf-vapi
 
-pnpm install
-pnpm start
+`pnpm install`
+
+`pnpm start`
