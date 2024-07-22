@@ -55,7 +55,7 @@ async function saveTranscript(user) {
 
 }
 
-export const nostreamDM = async (req: Request, res: Response) => {
+export const api = async (req: Request, res: Response) => {
 
   try {
     const {

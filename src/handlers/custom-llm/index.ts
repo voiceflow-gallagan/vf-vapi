@@ -1,8 +1,5 @@
-//import { basic } from './basic';
-import { streamDM } from './stream';
-import { nostreamDM } from './nostream';
+import { api } from './dmapi';
 
 export const customLLMHandler = {
-  streamDM: streamDM,
-  nostreamDM: nostreamDM
+  dmAPI: api
 };

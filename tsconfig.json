@@ -16,15 +16,12 @@
     "paths": {},
     "esModuleInterop": true
   },
-  "files": [],
-  "include": [],
-  "references": [
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
-    }
+  "files": ["src/**/*.ts"],
+  "include": [
+    "jest.config.ts",
+    "src/**/*.test.ts",
+    "src/**/*.spec.ts",
+    "src/**/*.d.ts"
   ],
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "backup", "jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"]
 }
