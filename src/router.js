@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { customLLMHandler } from './handlers/custom-llm';
+import { customLLMHandler } from './handlers/custom-llm/index.js';
 
 const router = Router();
 

@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import axios from 'axios';
+// import { Request, Response } from 'express';
+import { default as axios } from 'axios';
 
-const conversationStates = new Map<string, boolean>();
+const conversationStates = new Map();
 
 const getVoiceflowDomain = () => {
   const customDomain = process.env.VOICEFLOW_DOMAIN;
@@ -55,7 +55,7 @@ async function saveTranscript(user) {
 
 }
 
-export const api = async (req: Request, res: Response) => {
+export const api = async (req, res) => {
 
   try {
     const {
@@ -108,7 +108,7 @@ export const api = async (req: Request, res: Response) => {
           action: {
             type: "text",
             payload: lastMessage.content,
-          } as { type: string; payload: string },
+          },
         },
       });
     }
