@@ -27,7 +27,11 @@ Update the .env file with your **Voiceflow API key** and **project ID**.
 #### Start the server
 
 ``` bash
-npm install && npm start
+npm run setup
+```
+
+``` bash
+npm start
 ```
 
 #### Start ngrok on your port
