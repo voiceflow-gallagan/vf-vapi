@@ -36,7 +36,7 @@ npm start
 
 #### Start ngrok on your port
 ``` bash
-ngrok HTTP 3101
+ngrok http 3101
 ```
 
 Save the ngrok forwarding url for next step to update the Custom LLM endpoint in the VAPI assistant.

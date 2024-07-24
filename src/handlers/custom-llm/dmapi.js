@@ -44,7 +44,7 @@ async function saveTranscript(user) {
         user: {
           name: user,
           image:
-            'https://s3.amazonaws.com/com.voiceflow.studio/share/twilio-logo-png-transparent/twilio-logo-png-transparent.png',
+            'https://s3.amazonaws.com/com.voiceflow.studio/share/3818df985d5f502f5dc4a6816903ce174528467f/3818df985d5f502f5dc4a6816903ce174528467f.png',
         },
       },
       headers: {
