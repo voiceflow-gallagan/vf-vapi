@@ -118,6 +118,8 @@ export const api = async (req, res) => {
     res.setHeader('Connection', 'keep-alive');
 
     for (const trace of response.data) {
+      console.log("Trace:" , trace);
+
       switch (trace.type) {
         case 'text':
         case 'speak': {
@@ -150,29 +152,102 @@ export const api = async (req, res) => {
     }
   // If there's no 'end' trace, send a final chunk and end the response
   if (shouldEndCall) {
+    const currentTime = Math.floor(Date.now() / 1000);
 
-    const endCallChunk = {
-      id: `chatcmpl-${Math.floor(Date.now() / 1000)}`,
-      object: "chat.completion.chunk",
-      created: Math.floor(Date.now() / 1000),
-      model: "dmapi",
-      tools: tools,
-      tool_choice: "endCall",
-      choices: [
-        {
-          index: 0,
-          delta: {
-            content: "Goodbye!",
-            function_call: {
-              name: "endCall",
-              arguments: {}
+    const chunk1 = {
+        id: `chatcmpl-${currentTime}`,
+        object: "chat.completion.chunk",
+        created: currentTime,
+        model: "dmapi",
+        choices: [
+            {
+                index: 0,
+                delta: {
+                    content: null,
+                    function_call: null,
+                    role: "assistant",
+                    tool_calls: [
+                        {
+                            index: 0,
+                            id: "call_RzSY2TxsyOKxuG27tyTshgq2",
+                            function: {
+                                arguments: "",
+                                name: "endCall"
+                            },
+                            type: "function"
+                        }
+                    ]
+                },
+                finish_reason: null,
+                logprobs: null
             }
-          },
-          finish_reason: "function_call" //null //"tool_calls"
-        }
-      ]
+        ],
+        service_tier: null,
+        system_fingerprint: "fp_661538dc1f",
+        usage: null
     };
-    res.write(`data: ${JSON.stringify(endCallChunk)}\n\n`);
+
+    const chunk2 = {
+        id: `chatcmpl-${currentTime}`,
+        object: "chat.completion.chunk",
+        created: currentTime,
+        model: "dmapi",
+        choices: [
+            {
+                index: 0,
+                delta: {
+                    content: null,
+                    function_call: null,
+                    role: null,
+                    tool_calls: [
+                        {
+                            index: 0,
+                            id: null,
+                            function: {
+                                arguments: "{}",
+                                name: null
+                            },
+                            type: null
+                        }
+                    ]
+                },
+                finish_reason: null,
+                logprobs: null
+            }
+        ],
+        service_tier: null,
+        system_fingerprint: "fp_661538dc1f",
+        usage: null
+    };
+
+    const chunk3 = {
+        id: `chatcmpl-${currentTime}`,
+        object: "chat.completion.chunk",
+        created: currentTime,
+        model: "dmapi",
+        choices: [
+            {
+                index: 0,
+                delta: {
+                    content: null,
+                    function_call: null,
+                    role: null,
+                    tool_calls: null
+                },
+                finish_reason: "tool_calls",
+                logprobs: null
+            }
+        ],
+        service_tier: null,
+        system_fingerprint: "fp_661538dc1f",
+        usage: null
+    };
+
+    res.write(`data: ${JSON.stringify(chunk1)}\n\n`);
+    res.write(`data: ${JSON.stringify(chunk2)}\n\n`);
+    res.write(`data: ${JSON.stringify(chunk3)}\n\n`);
+    res.write(`data: [DONE]\n\n`);
+
   } else {
     // If there's no 'end' trace, send a final chunk and end the response
     const finalChunk = {
