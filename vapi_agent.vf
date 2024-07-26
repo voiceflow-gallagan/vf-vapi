@@ -89,7 +89,7 @@
               "slots": []
             }
           ],
-          "noteID": "ht6uy0gr0",
+          "noteID": "ul2sp0d82",
           "description": "Trigger this intent when the user responds affirmatively or agrees to a question or statement using words like \"yes\", \"yea\", \"yup\", \"yep\", \"ya\", \"ok\", \"okay\", \"affirmative\", \"certainly\", or \"sure\"."
         },
         {
@@ -138,7 +138,7 @@
               "slots": []
             }
           ],
-          "noteID": "ht6uz0gvn",
+          "noteID": "ul2sq0da9",
           "description": "Trigger this intent when the user responds negatively or declines something, using words like \"no\", \"nope\", \"nay\", \"nah\", \"not now\", \"no way\", \"no thanks\", \"not\", \"nevermind\", or \"negative\"."
         },
         {
@@ -214,7 +214,7 @@
               "slots": []
             }
           ],
-          "noteID": "ht6v00gqy",
+          "noteID": "ul2sr0dlr",
           "description": "Trigger this whenever user wants to end the call"
         }
       ],
@@ -319,7 +319,7 @@
                 "slots": []
               }
             ],
-            "noteID": "ht6v00gqy",
+            "noteID": "ul2sr0dlr",
             "description": "Trigger this whenever user wants to end the call"
           },
           {
@@ -425,7 +425,7 @@
       "messages": {}
     },
     "_id": "669e7b38fb459b5250003954",
-    "updatedAt": "2024-07-25T14:36:53.058Z",
+    "updatedAt": "2024-07-26T13:48:36.094Z",
     "domains": [
       {
         "id": "cla06iyr900b206pkh8d4ap8n",
@@ -537,6 +537,9 @@
                   "type": "else",
                   "target": null,
                   "id": "66a25df161b62f05cbef5133"
+                },
+                "no-reply": {
+                  "target": null
                 }
               },
               "dynamic": []
@@ -549,7 +552,8 @@
           "data": {
             "name": "Bye",
             "steps": [
-              "66a25df161b62f05cbef5131"
+              "66a25df161b62f05cbef5131",
+              "66a3a79fe4e7c5e10adb6a3f"
             ],
             "color": "#dc8879"
           },
@@ -558,6 +562,18 @@
             669.7499999999999,
             114.5
           ]
+        },
+        "66a3a79fe4e7c5e10adb6a3f": {
+          "type": "exit",
+          "data": {
+            "name": "",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "nodeID": "66a3a79fe4e7c5e10adb6a3f"
         }
       },
       "offsetX": 0,
@@ -1659,14 +1675,7 @@
                   {
                     "children": [
                       {
-                        "text": "Hi there!"
-                      }
-                    ]
-                  },
-                  {
-                    "children": [
-                      {
-                        "text": "Welcome to the VAPI | Voiceflow Demo."
+                        "text": "Hi there! Welcome to the VAPI | Voiceflow Demo."
                       }
                     ]
                   }
@@ -1715,7 +1724,7 @@
                   {
                     "children": [
                       {
-                        "text": "Please ask me a question and I will try to answer it the best I can."
+                        "text": "Ask me a question and I will try to answer it the best I can."
                       }
                     ]
                   }
@@ -1757,7 +1766,8 @@
                         ],
                         "allowedToTop": true
                       }
-                    ]
+                    ],
+                    "color": "#56b365"
                   }
                 }
               },
@@ -1774,7 +1784,7 @@
             "prompt": "Answer user's question the best you can: {{[last_utterance].last_utterance}}",
             "system": "",
             "maxTokens": 194,
-            "model": "gpt-3.5-turbo",
+            "model": "gpt-4o",
             "temperature": 0.5,
             "notFoundPath": true,
             "overrideParams": false,
@@ -1790,21 +1800,23 @@
                       {
                         "point": [
                           418.27,
-                          -427.43
+                          -417.18
                         ],
                         "reversed": true
                       },
                       {
                         "point": [
-                          385.95,
-                          -427.43
-                        ]
+                          376.76,
+                          -417.18
+                        ],
+                        "locked": true
                       },
                       {
                         "point": [
-                          385.95,
+                          376.76,
                           -702.42
-                        ]
+                        ],
+                        "locked": true
                       },
                       {
                         "point": [
@@ -1813,7 +1825,8 @@
                         ],
                         "allowedToTop": true
                       }
-                    ]
+                    ],
+                    "color": "#56b365"
                   }
                 },
                 "else": {
@@ -1892,7 +1905,8 @@
                         "toTop": true,
                         "allowedToTop": true
                       }
-                    ]
+                    ],
+                    "color": "#56b365"
                   }
                 },
                 "else": {
@@ -2614,8 +2628,8 @@
       "assigneeID": null,
       "description": null,
       "createdAt": "2024-07-22T15:31:05.000Z",
-      "updatedAt": "2024-07-25T17:50:44.000Z",
-      "updatedByID": 926158
+      "updatedAt": "2024-07-26T13:48:33.000Z",
+      "updatedByID": 3600
     },
     {
       "id": "66a25dae96adaa39395c9e6d",
@@ -2628,7 +2642,7 @@
       "assigneeID": 3600,
       "description": "",
       "createdAt": "2024-07-25T14:14:07.000Z",
-      "updatedAt": "2024-07-25T14:15:50.000Z",
+      "updatedAt": "2024-07-26T13:41:51.000Z",
       "updatedByID": 3600
     }
   ],
