@@ -117,14 +117,12 @@ export const api = async (req, res) => {
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Connection', 'keep-alive')
 
-    let lastReply = null
     const chatId = `chatcmpl-${Math.floor(Date.now() / 1000)}`
     for (const trace of response.data) {
       switch (trace.type) {
         case 'text':
         case 'speak': {
           if (trace.payload?.message) {
-            lastReply = trace.payload.message
             const chunk = {
               id: chatId,
               object: 'chat.completion.chunk',

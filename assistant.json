@@ -1,0 +1,37 @@
+{
+  "name": "Assistant",
+  "voice": {
+    "speed": 0.9,
+    "voiceId": "melissa",
+    "provider": "playht",
+    "fillerInjectionEnabled": false
+  },
+  "recordingEnabled": false,
+  "endCallFunctionEnabled": true,
+  "firstMessageMode": "assistant-speaks-first-with-model-generated-message",
+  "model": {
+    "model": "dmapi",
+    "provider": "custom-llm"
+  },
+  "transcriber": {
+    "model": "nova-2",
+    "language": "en",
+    "provider": "deepgram"
+  },
+  "silenceTimeoutSeconds": 25,
+  "clientMessages": [
+    "transcript",
+    "hang",
+    "function-call",
+    "speech-update",
+    "metadata",
+    "conversation-update"
+  ],
+  "serverMessages": [
+    "end-of-call-report",
+    "status-update",
+    "hang",
+    "function-call"
+  ],
+  "backgroundSound": "office"
+}

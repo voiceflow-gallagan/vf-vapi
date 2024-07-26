@@ -1,0 +1,2692 @@
+{
+  "version": {
+    "_version": 9.03,
+    "autoSaveFromRestore": false,
+    "canvasTemplates": [
+      {
+        "id": "sg9zy34i0",
+        "name": "Basic Conversation Path",
+        "color": "#5b9fd7",
+        "nodeIDs": [
+          "643872d482cf9d2273b905df",
+          "643872d482cf9d2273b905e1",
+          "643872d482cf9d2273b905e3"
+        ]
+      },
+      {
+        "id": "5bgq3341p",
+        "name": "Save Information",
+        "color": "#000000",
+        "nodeIDs": [
+          "6438784f82cf9d2273b90dd4",
+          "6438784f82cf9d2273b90dd6",
+          "6438784f82cf9d2273b90dd8",
+          "6438784f82cf9d2273b90dda"
+        ]
+      },
+      {
+        "id": "byav33785",
+        "name": "API Call Example",
+        "color": null,
+        "nodeIDs": [
+          "645d718f83103cca7a3cecc1",
+          "645d718f83103cca7a3cecc3",
+          "645d718f83103cca7a3cecc5",
+          "645d718f83103cca7a3cecc7"
+        ]
+      }
+    ],
+    "components": [],
+    "creatorID": 3600,
+    "manualSave": false,
+    "name": "Initial Version",
+    "platformData": {
+      "slots": [],
+      "intents": [
+        {
+          "key": "6579c6bf984565862f64b783",
+          "name": "Yes",
+          "slots": [],
+          "inputs": [
+            {
+              "text": "sure",
+              "slots": []
+            },
+            {
+              "text": "certainly",
+              "slots": []
+            },
+            {
+              "text": "affirmative",
+              "slots": []
+            },
+            {
+              "text": "okay",
+              "slots": []
+            },
+            {
+              "text": "ok",
+              "slots": []
+            },
+            {
+              "text": "ya",
+              "slots": []
+            },
+            {
+              "text": "yep",
+              "slots": []
+            },
+            {
+              "text": "yup",
+              "slots": []
+            },
+            {
+              "text": "yea",
+              "slots": []
+            },
+            {
+              "text": "yes",
+              "slots": []
+            }
+          ],
+          "noteID": "ht6uy0gr0",
+          "description": "Trigger this intent when the user responds affirmatively or agrees to a question or statement using words like \"yes\", \"yea\", \"yup\", \"yep\", \"ya\", \"ok\", \"okay\", \"affirmative\", \"certainly\", or \"sure\"."
+        },
+        {
+          "key": "6579c778dd3cca0fe0e0b152",
+          "name": "No",
+          "slots": [],
+          "inputs": [
+            {
+              "text": "negative",
+              "slots": []
+            },
+            {
+              "text": "nevermind",
+              "slots": []
+            },
+            {
+              "text": "not",
+              "slots": []
+            },
+            {
+              "text": "no thanks",
+              "slots": []
+            },
+            {
+              "text": "no way",
+              "slots": []
+            },
+            {
+              "text": "not now",
+              "slots": []
+            },
+            {
+              "text": "nah",
+              "slots": []
+            },
+            {
+              "text": "nay",
+              "slots": []
+            },
+            {
+              "text": "nope",
+              "slots": []
+            },
+            {
+              "text": "no",
+              "slots": []
+            }
+          ],
+          "noteID": "ht6uz0gvn",
+          "description": "Trigger this intent when the user responds negatively or declines something, using words like \"no\", \"nope\", \"nay\", \"nah\", \"not now\", \"no way\", \"no thanks\", \"not\", \"nevermind\", or \"negative\"."
+        },
+        {
+          "key": "None",
+          "name": "None",
+          "slots": [],
+          "inputs": [],
+          "noteID": null
+        },
+        {
+          "key": "66a25dec96adaa39395c9e82",
+          "name": "endCall",
+          "slots": [],
+          "inputs": [
+            {
+              "text": "end",
+              "slots": []
+            },
+            {
+              "text": "bye",
+              "slots": []
+            },
+            {
+              "text": "I need to go",
+              "slots": []
+            },
+            {
+              "text": "have a good day",
+              "slots": []
+            },
+            {
+              "text": "I'm running late, gotta end the call",
+              "slots": []
+            },
+            {
+              "text": "I'll talk to you later, bye",
+              "slots": []
+            },
+            {
+              "text": "Sorry, I have to hang up now",
+              "slots": []
+            },
+            {
+              "text": "It was nice talking to you, bye",
+              "slots": []
+            },
+            {
+              "text": "I have another appointment, gotta go",
+              "slots": []
+            },
+            {
+              "text": "wrong number, bye",
+              "slots": []
+            },
+            {
+              "text": "I'm losing signal, need to end the call",
+              "slots": []
+            },
+            {
+              "text": "Sorry, I have to go now, bye",
+              "slots": []
+            },
+            {
+              "text": "I'm running late, have to end the call",
+              "slots": []
+            },
+            {
+              "text": "I have to go, talk to you later",
+              "slots": []
+            },
+            {
+              "text": "I need to take another call, talk to you soon",
+              "slots": []
+            }
+          ],
+          "noteID": "ht6v00gqy",
+          "description": "Trigger this whenever user wants to end the call"
+        }
+      ],
+      "settings": {
+        "restart": true,
+        "repeat": 100,
+        "locales": [
+          "en-US"
+        ],
+        "defaultVoice": "Alexa"
+      },
+      "publishing": {
+        "avatar": "https://cdn.voiceflow.com/assets/logomark.png",
+        "color": "#2E7FF1",
+        "description": "Our virtual agent is here to help you.",
+        "feedback": false,
+        "image": "https://cdn.voiceflow.com/assets/logomark.png",
+        "persistence": "localStorage",
+        "position": "right",
+        "spacing": {
+          "side": 24,
+          "bottom": 24
+        },
+        "title": "Starting Template - Webchat",
+        "watermark": true
+      },
+      "platform": "webchat"
+    },
+    "prototype": {
+      "type": "chat",
+      "data": {
+        "name": "Simple VAPI Demo",
+        "locales": [
+          "en-US"
+        ]
+      },
+      "model": {
+        "intents": [
+          {
+            "key": "66a25dec96adaa39395c9e82",
+            "name": "endCall",
+            "slots": [],
+            "inputs": [
+              {
+                "text": "end",
+                "slots": []
+              },
+              {
+                "text": "bye",
+                "slots": []
+              },
+              {
+                "text": "I need to go",
+                "slots": []
+              },
+              {
+                "text": "have a good day",
+                "slots": []
+              },
+              {
+                "text": "I'm running late, gotta end the call",
+                "slots": []
+              },
+              {
+                "text": "I'll talk to you later, bye",
+                "slots": []
+              },
+              {
+                "text": "Sorry, I have to hang up now",
+                "slots": []
+              },
+              {
+                "text": "It was nice talking to you, bye",
+                "slots": []
+              },
+              {
+                "text": "I have another appointment, gotta go",
+                "slots": []
+              },
+              {
+                "text": "wrong number, bye",
+                "slots": []
+              },
+              {
+                "text": "I'm losing signal, need to end the call",
+                "slots": []
+              },
+              {
+                "text": "Sorry, I have to go now, bye",
+                "slots": []
+              },
+              {
+                "text": "I'm running late, have to end the call",
+                "slots": []
+              },
+              {
+                "text": "I have to go, talk to you later",
+                "slots": []
+              },
+              {
+                "text": "I need to take another call, talk to you soon",
+                "slots": []
+              }
+            ],
+            "noteID": "ht6v00gqy",
+            "description": "Trigger this whenever user wants to end the call"
+          },
+          {
+            "key": "None",
+            "name": "None",
+            "slots": [],
+            "inputs": [
+              {
+                "text": "None"
+              }
+            ],
+            "noteID": null
+          }
+        ],
+        "slots": []
+      },
+      "context": {
+        "stack": [
+          {
+            "programID": "64386e21bb106b044ea34b78",
+            "storage": {},
+            "variables": {},
+            "diagramID": "64386e21bb106b044ea34b78"
+          }
+        ],
+        "variables": {}
+      },
+      "surveyorContext": {
+        "functionDefinitions": {},
+        "referencedResponseIDs": [],
+        "slotsMap": {},
+        "platform": "webchat",
+        "products": {},
+        "extraSlots": [],
+        "interfaces": [],
+        "permissions": [],
+        "extraIntents": [],
+        "usedEventsSet": [],
+        "usedIntentsSet": [
+          "66a25dec96adaa39395c9e82"
+        ],
+        "goToIntentsSet": [],
+        "cmsVariables": {
+          "sessions": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "user_id": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "timestamp": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "platform": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "intent_confidence": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "last_response": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "last_event": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "last_utterance": {
+            "isSystem": true,
+            "defaultValue": null
+          },
+          "vf_memory": {
+            "isSystem": true,
+            "defaultValue": null
+          }
+        }
+      },
+      "settings": {},
+      "platform": "webchat"
+    },
+    "topics": [
+      {
+        "type": "DIAGRAM",
+        "sourceID": "64386e21bb106b044ea34b78"
+      }
+    ],
+    "variables": [
+      "sessions",
+      "user_id",
+      "timestamp",
+      "platform",
+      "intent_confidence",
+      "last_response",
+      "last_event",
+      "last_utterance",
+      "vf_memory"
+    ],
+    "programResources": {
+      "messages": {}
+    },
+    "_id": "669e7b38fb459b5250003954",
+    "updatedAt": "2024-07-25T14:36:53.058Z",
+    "domains": [
+      {
+        "id": "cla06iyr900b206pkh8d4ap8n",
+        "name": "Home",
+        "live": true,
+        "topicIDs": [
+          "64386e21bb106b044ea34b78"
+        ],
+        "rootDiagramID": "64386e21bb106b044ea34b78",
+        "updatedBy": 3600,
+        "updatedAt": "2024-07-22T15:31:04.884Z"
+      }
+    ],
+    "projectID": "669e7b38fb459b5250003953",
+    "rootDiagramID": "64386e21bb106b044ea34b78",
+    "templateDiagramID": "643872531e80120007759e05"
+  },
+  "diagrams": {
+    "66a25dae843f67e3e2991665": {
+      "name": "End Call",
+      "type": "TOPIC",
+      "zoom": 100,
+      "nodes": {
+        "66a25dae4a520d0007690875": {
+          "coords": [
+            360,
+            120
+          ],
+          "type": "block",
+          "data": {
+            "name": "",
+            "color": "",
+            "steps": [
+              "66a25dae4a520d0007690874"
+            ],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {},
+              "dynamic": []
+            }
+          },
+          "nodeID": "66a25dae4a520d0007690875"
+        },
+        "66a25dae4a520d0007690874": {
+          "nodeID": "66a25dae4a520d0007690874",
+          "type": "trigger",
+          "data": {
+            "name": "",
+            "items": [
+              {
+                "id": "clz1cv9lh00yo3b7emfij6zct",
+                "type": "intent",
+                "resourceID": "66a25dec96adaa39395c9e82",
+                "settings": {
+                  "local": false
+                }
+              }
+            ],
+            "portsV2": {
+              "byKey": {
+                "next": {
+                  "id": "66a25dae4a520d0007690876",
+                  "type": "next",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          434.04,
+                          142
+                        ]
+                      },
+                      {
+                        "point": [
+                          504.75,
+                          141.5
+                        ]
+                      }
+                    ]
+                  },
+                  "target": "66a25df161b62f05cbef5134"
+                }
+              },
+              "builtIn": {},
+              "dynamic": []
+            }
+          }
+        },
+        "66a25df161b62f05cbef5131": {
+          "type": "generative",
+          "data": {
+            "name": "Response AI",
+            "mode": "memory_prompt",
+            "prompt": "Thanks the user and say goodbye.",
+            "system": "",
+            "maxTokens": 282,
+            "model": "gpt-3.5-turbo",
+            "temperature": 0.7,
+            "notFoundPath": true,
+            "overrideParams": false,
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "66a25df161b62f05cbef5132"
+                },
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "66a25df161b62f05cbef5133"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "66a25df161b62f05cbef5131"
+        },
+        "66a25df161b62f05cbef5134": {
+          "type": "block",
+          "data": {
+            "name": "Bye",
+            "steps": [
+              "66a25df161b62f05cbef5131"
+            ],
+            "color": "#dc8879"
+          },
+          "nodeID": "66a25df161b62f05cbef5134",
+          "coords": [
+            669.7499999999999,
+            114.5
+          ]
+        }
+      },
+      "offsetX": 0,
+      "offsetY": 0,
+      "modified": 1721916846,
+      "variables": [],
+      "creatorID": 3600,
+      "_id": "66a25dae843f67e3e2991665",
+      "diagramID": "66a25dae843f67e3e2991665",
+      "versionID": "669e7b38fb459b5250003954"
+    },
+    "643872531e80120007759e05": {
+      "name": "Template Diagram",
+      "type": "TEMPLATE",
+      "zoom": 100,
+      "nodes": {
+        "643872d482cf9d2273b905df": {
+          "type": "block",
+          "data": {
+            "name": "Option 2",
+            "color": "",
+            "steps": [
+              "643872d482cf9d2273b905e5"
+            ]
+          },
+          "nodeID": "643872d482cf9d2273b905df",
+          "coords": [
+            -432.02299332274276,
+            -334.73425308247994
+          ]
+        },
+        "643872d482cf9d2273b905e5": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "lu9tb340d",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Second Option"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "643872d482cf9d2273b905e6"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "643872d482cf9d2273b905e5"
+        },
+        "643872d482cf9d2273b905e1": {
+          "type": "block",
+          "data": {
+            "name": "Start Block",
+            "color": "#5b9fd7",
+            "steps": [
+              "643872d482cf9d2273b905e8",
+              "643872d482cf9d2273b905eb"
+            ]
+          },
+          "nodeID": "643872d482cf9d2273b905e1",
+          "coords": [
+            -845.4801744371416,
+            -539.5792694267975
+          ]
+        },
+        "643872d482cf9d2273b905e8": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "929q734a2",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "How can I help you?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "643872d482cf9d2273b905eb",
+                  "id": "643872d482cf9d2273b905e9"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "643872d482cf9d2273b905e8"
+        },
+        "643872d482cf9d2273b905eb": {
+          "type": "buttons",
+          "data": {
+            "name": "Buttons",
+            "noMatch": null,
+            "buttons": [
+              {
+                "id": "xr9vd34tj",
+                "name": "Path 1",
+                "actions": []
+              },
+              {
+                "id": "cl9vs34c7",
+                "name": "Path 2",
+                "actions": []
+              }
+            ],
+            "noReply": null,
+            "intentScope": "GLOBAL",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "643872d482cf9d2273b905ec"
+                }
+              },
+              "dynamic": [
+                {
+                  "type": "",
+                  "target": "643872d482cf9d2273b905e3",
+                  "id": "643872d482cf9d2273b905ed",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -679.4801667002234,
+                          -399.32923837159325
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -637.4918741411055,
+                          -399.32923837159325
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -637.4918741411055,
+                          -542.9755028741506
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -595.5035815819875,
+                          -542.9755028741506
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                },
+                {
+                  "type": "",
+                  "target": "643872d482cf9d2273b905df",
+                  "id": "643872d482cf9d2273b905ee",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -679.4801667002234,
+                          -344.82921901334083
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -638.2515780028617,
+                          -344.82921901334083
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -638.2515780028617,
+                          -307.73401942975823
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -597.0229893055001,
+                          -307.73401942975823
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          "nodeID": "643872d482cf9d2273b905eb"
+        },
+        "643872d482cf9d2273b905e3": {
+          "type": "block",
+          "data": {
+            "name": "Option 1",
+            "color": "",
+            "steps": [
+              "643872d482cf9d2273b905f0"
+            ]
+          },
+          "nodeID": "643872d482cf9d2273b905e3",
+          "coords": [
+            -430.5038187460724,
+            -569.9756266907931
+          ]
+        },
+        "643872d482cf9d2273b905f0": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "ky9ry343w",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "First Option"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "643872d482cf9d2273b905f1"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "643872d482cf9d2273b905f0"
+        },
+        "6438784f82cf9d2273b90dd4": {
+          "type": "block",
+          "data": {
+            "name": "Use Logic to Route",
+            "color": "#dc8879",
+            "steps": [
+              "6438784f82cf9d2273b90ddc"
+            ]
+          },
+          "nodeID": "6438784f82cf9d2273b90dd4",
+          "coords": [
+            -1964.4846386537488,
+            -626.9744457114995
+          ]
+        },
+        "6438784f82cf9d2273b90ddc": {
+          "type": "ifV2",
+          "data": {
+            "name": "If",
+            "expressions": [
+              {
+                "type": null,
+                "name": "If name is elon musk",
+                "value": [
+                  {
+                    "logicInterface": "variable",
+                    "type": "equals",
+                    "value": [
+                      {
+                        "type": "variable",
+                        "value": "name"
+                      },
+                      {
+                        "type": "value",
+                        "value": "elon musk"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "noMatch": {
+              "type": "path",
+              "pathName": "All other names"
+            },
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "else": {
+                  "type": "else",
+                  "target": "6438784f82cf9d2273b90dd8",
+                  "id": "6438784f82cf9d2273b90ddd",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -1798.484505972181,
+                          -492.72447921623757
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1763.5243607307511,
+                          -492.72447921623757
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1763.5243607307511,
+                          -440.2937029472216
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1728.5642154893217,
+                          -440.2937029472216
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                }
+              },
+              "dynamic": [
+                {
+                  "type": "",
+                  "target": "6438784f82cf9d2273b90dda",
+                  "id": "6438784f82cf9d2273b90dde",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -1798.484505972181,
+                          -547.2244999131336
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1764.1493300508728,
+                          -547.2244999131336
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1764.1493300508728,
+                          -599.0438504799286
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -1729.814154129565,
+                          -599.0438504799286
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": true
+                      }
+                    ],
+                    "event": {
+                      "type": "If name is elon musk"
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "nodeID": "6438784f82cf9d2273b90ddc"
+        },
+        "6438784f82cf9d2273b90dd6": {
+          "type": "block",
+          "data": {
+            "name": "Capture Information",
+            "color": "#dc8879",
+            "steps": [
+              "6438784f82cf9d2273b90de0",
+              "6438784f82cf9d2273b90de3"
+            ]
+          },
+          "nodeID": "6438784f82cf9d2273b90dd6",
+          "coords": [
+            -2376.095116200327,
+            -628.3840706346044
+          ]
+        },
+        "6438784f82cf9d2273b90de0": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "s8a30349g",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "What is your name?"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "6438784f82cf9d2273b90de3",
+                  "id": "6438784f82cf9d2273b90de1"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "6438784f82cf9d2273b90de0"
+        },
+        "6438784f82cf9d2273b90de3": {
+          "type": "captureV2",
+          "data": {
+            "name": "Capture",
+            "intentScope": "GLOBAL",
+            "capture": {
+              "type": "query",
+              "variable": "name"
+            },
+            "noReply": null,
+            "noMatch": null,
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "6438784f82cf9d2273b90dd4",
+                  "id": "6438784f82cf9d2273b90de4",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -2210.0950799471193,
+                          -488.1341077200336
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -2169.789872823509,
+                          -488.1341077200336
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -2169.789872823509,
+                          -599.9743336839742
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": false
+                      },
+                      {
+                        "point": [
+                          -2129.484665699899,
+                          -599.9743336839742
+                        ],
+                        "toTop": false,
+                        "locked": false,
+                        "reversed": false,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "6438784f82cf9d2273b90de5"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "6438784f82cf9d2273b90de3"
+        },
+        "6438784f82cf9d2273b90dd8": {
+          "type": "block",
+          "data": {
+            "name": "Other names",
+            "color": "#dc8879",
+            "steps": [
+              "6438784f82cf9d2273b90de7"
+            ]
+          },
+          "nodeID": "6438784f82cf9d2273b90dd8",
+          "coords": [
+            -1563.5642881833433,
+            -467.2936955577087
+          ]
+        },
+        "6438784f82cf9d2273b90de7": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "1jabe34gf",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Hello "
+                      },
+                      {
+                        "id": "name",
+                        "name": "name",
+                        "isSlot": false,
+                        "type": "variable",
+                        "children": [
+                          {
+                            "text": ""
+                          }
+                        ]
+                      },
+                      {
+                        "text": " !"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "6438784f82cf9d2273b90de8"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "6438784f82cf9d2273b90de7"
+        },
+        "6438784f82cf9d2273b90dda": {
+          "type": "block",
+          "data": {
+            "name": "Elon Musk",
+            "color": "#dc8879",
+            "steps": [
+              "6438784f82cf9d2273b90dea"
+            ]
+          },
+          "nodeID": "6438784f82cf9d2273b90dda",
+          "coords": [
+            -1564.8142881833433,
+            -626.0436955577089
+          ]
+        },
+        "6438784f82cf9d2273b90dea": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "1jabe34gf",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Twitter is the best 🐦"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "6438784f82cf9d2273b90deb"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "6438784f82cf9d2273b90dea"
+        },
+        "645d718f83103cca7a3cecc1": {
+          "type": "block",
+          "data": {
+            "name": "Fail",
+            "color": "#5b9fd7",
+            "steps": [
+              "645d718f83103cca7a3cecc9"
+            ]
+          },
+          "nodeID": "645d718f83103cca7a3cecc1",
+          "coords": [
+            -943.7641060825457,
+            -726.7018427371622
+          ]
+        },
+        "645d718f83103cca7a3cecc9": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "u08yz372g",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Error"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "645d718f83103cca7a3cecca"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "645d718f83103cca7a3cecc9"
+        },
+        "645d718f83103cca7a3cecc3": {
+          "type": "block",
+          "data": {
+            "name": "API Call",
+            "color": "#5b9fd7",
+            "steps": [
+              "645d718f83103cca7a3ceccc"
+            ]
+          },
+          "nodeID": "645d718f83103cca7a3cecc3",
+          "coords": [
+            -1337.282813902139,
+            -902.1537022731807
+          ]
+        },
+        "645d718f83103cca7a3ceccc": {
+          "type": "api",
+          "data": {
+            "name": "",
+            "url": "https://api.openai.com/v1/completions",
+            "body": [
+              {
+                "key": "",
+                "val": ""
+              }
+            ],
+            "params": [],
+            "method": "POST",
+            "headers": [
+              {
+                "key": "Content-Type",
+                "val": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "val": "Bearer <ADD API KEY HERE>"
+              }
+            ],
+            "content": "{\n  \"model\": \"text-davinci-003\",\n  \"prompt\": \"{last_utterance}\",\n  \"max_tokens\": 7,\n  \"temperature\": 0,\n  \"top_p\": 1,\n  \"n\": 1,\n  \"stream\": false,\n  \"logprobs\": null,\n  \"stop\": \"\\n\"\n}",
+            "mappings": [
+              {
+                "path": "response",
+                "var": "response"
+              }
+            ],
+            "bodyType": "rawInput",
+            "selectedAction": "Make a POST Request",
+            "selectedIntegration": "Custom API",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "645d718f83103cca7a3cecd7",
+                  "id": "645d718f83103cca7a3cecce",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -1171.2838307947716,
+                          -748.4052156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1141.0638307947715,
+                          -748.4052156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1141.0638307947715,
+                          -821.3652156062917
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1110.8438307947717,
+                          -821.3652156062917
+                        ],
+                        "allowedToTop": false
+                      }
+                    ]
+                  }
+                },
+                "fail": {
+                  "type": "fail",
+                  "target": "645d718f83103cca7a3cecc9",
+                  "id": "645d718f83103cca7a3ceccd",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -1171.2838307947716,
+                          -693.9052156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1140.5238307947716,
+                          -693.9052156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1140.5238307947716,
+                          -647.2052156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1109.7638307947714,
+                          -647.2052156062919
+                        ],
+                        "allowedToTop": false
+                      }
+                    ]
+                  }
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "645d718f83103cca7a3ceccc"
+        },
+        "645d718f83103cca7a3cecc5": {
+          "type": "block",
+          "data": {
+            "name": "Welcome",
+            "color": "#5b9fd7",
+            "steps": [
+              "645d718f83103cca7a3cecd0",
+              "645d718f83103cca7a3cecd3"
+            ]
+          },
+          "nodeID": "645d718f83103cca7a3cecc5",
+          "coords": [
+            -1722.1832079861151,
+            -907.6478276212674
+          ]
+        },
+        "645d718f83103cca7a3cecd0": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "xg77r3eyi",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "This flow captures a users question and sends it to the OpenAI API"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "645d718f83103cca7a3cecd3",
+                  "id": "645d718f83103cca7a3cecd1"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "645d718f83103cca7a3cecd0"
+        },
+        "645d718f83103cca7a3cecd3": {
+          "type": "captureV2",
+          "data": {
+            "name": "Capture",
+            "intentScope": "GLOBAL",
+            "capture": {
+              "type": "query",
+              "variable": "last_utterance"
+            },
+            "noReply": null,
+            "noMatch": null,
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "645d718f83103cca7a3cecc3",
+                  "id": "645d718f83103cca7a3cecd4",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -1556.1838307947714,
+                          -733.6452156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1529.2338307947716,
+                          -733.6452156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1529.2338307947716,
+                          -875.1552156062919
+                        ]
+                      },
+                      {
+                        "point": [
+                          -1502.2838307947716,
+                          -875.1552156062919
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "645d718f83103cca7a3cecd5"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "645d718f83103cca7a3cecd3"
+        },
+        "645d718f83103cca7a3cecc7": {
+          "type": "block",
+          "data": {
+            "name": "Success",
+            "color": "#5b9fd7",
+            "steps": [
+              "645d718f83103cca7a3cecd7"
+            ]
+          },
+          "nodeID": "645d718f83103cca7a3cecc7",
+          "coords": [
+            -944.844860096504,
+            -900.8660415973322
+          ]
+        },
+        "645d718f83103cca7a3cecd7": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "vh8xb37hw",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": ""
+                      },
+                      {
+                        "id": "response",
+                        "name": "response",
+                        "isSlot": false,
+                        "type": "variable",
+                        "children": [
+                          {
+                            "text": ""
+                          }
+                        ]
+                      },
+                      {
+                        "text": " "
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "645d718f83103cca7a3cecd8"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "645d718f83103cca7a3cecd7"
+        }
+      },
+      "offsetX": 0,
+      "offsetY": 0,
+      "modified": 1681420883,
+      "creatorID": 3600,
+      "variables": [],
+      "menuItems": [],
+      "_id": "669e7b38fb459b5250003955",
+      "diagramID": "643872531e80120007759e05",
+      "versionID": "669e7b38fb459b5250003954"
+    },
+    "64386e21bb106b044ea34b78": {
+      "name": "ROOT",
+      "type": "TOPIC",
+      "zoom": 100,
+      "nodes": {
+        "start00000000000000000000": {
+          "type": "start",
+          "data": {
+            "name": "Start",
+            "color": "#56b365",
+            "steps": [],
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "669e7b49c78cdc1a73b115dd",
+                  "id": "6032afcf359e8c14c06c0319",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          -33.34,
+                          -705.19
+                        ]
+                      },
+                      {
+                        "point": [
+                          74.64,
+                          -705.19
+                        ]
+                      },
+                      {
+                        "point": [
+                          74.64,
+                          -576.37
+                        ],
+                        "toTop": true,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                }
+              },
+              "dynamic": []
+            },
+            "label": "Start"
+          },
+          "nodeID": "start00000000000000000000",
+          "coords": [
+            -97.97306657576806,
+            -727.1861503347151
+          ]
+        },
+        "669e7b49c78cdc1a73b115db": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "ju873esa",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Hi there!"
+                      }
+                    ]
+                  },
+                  {
+                    "children": [
+                      {
+                        "text": "Welcome to the VAPI | Voiceflow Demo."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": null,
+                  "id": "669e7b49c78cdc1a73b115dc"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "669e7b49c78cdc1a73b115db"
+        },
+        "669e7b49c78cdc1a73b115dd": {
+          "type": "block",
+          "data": {
+            "name": "Welcome block",
+            "steps": [
+              "669e7b49c78cdc1a73b115db",
+              "669e7b67c78cdc1a73b115e4"
+            ],
+            "color": "#5b9fd7"
+          },
+          "nodeID": "669e7b49c78cdc1a73b115dd",
+          "coords": [
+            177.64461230581193,
+            -732.37041868333
+          ]
+        },
+        "669e7b67c78cdc1a73b115e4": {
+          "type": "text",
+          "data": {
+            "name": "Text",
+            "texts": [
+              {
+                "id": "mvc33em4",
+                "content": [
+                  {
+                    "children": [
+                      {
+                        "text": "Please ask me a question and I will try to answer it the best I can."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "canvasVisibility": "preview",
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "669e7bb3c78cdc1a73b115f6",
+                  "id": "669e7b67c78cdc1a73b115e5",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          240.64,
+                          -388.37
+                        ]
+                      },
+                      {
+                        "point": [
+                          325.3,
+                          -388.37
+                        ]
+                      },
+                      {
+                        "point": [
+                          325.3,
+                          -702.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          409.95,
+                          -702.42
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "669e7b67c78cdc1a73b115e4"
+        },
+        "669e7b7fc78cdc1a73b115e9": {
+          "type": "generative",
+          "data": {
+            "name": "Response AI",
+            "mode": "prompt",
+            "prompt": "Answer user's question the best you can: {{[last_utterance].last_utterance}}",
+            "system": "",
+            "maxTokens": 194,
+            "model": "gpt-3.5-turbo",
+            "temperature": 0.5,
+            "notFoundPath": true,
+            "overrideParams": false,
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "669e7bb3c78cdc1a73b115f6",
+                  "id": "669e7b7fc78cdc1a73b115ea",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          418.27,
+                          -427.43
+                        ],
+                        "reversed": true
+                      },
+                      {
+                        "point": [
+                          385.95,
+                          -427.43
+                        ]
+                      },
+                      {
+                        "point": [
+                          385.95,
+                          -702.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          409.95,
+                          -702.42
+                        ],
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "669e7b7fc78cdc1a73b115eb"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "669e7b7fc78cdc1a73b115e9"
+        },
+        "669e7b7fc78cdc1a73b115ec": {
+          "type": "block",
+          "data": {
+            "name": "Answer user question",
+            "steps": [
+              "669e7b7fc78cdc1a73b115e9"
+            ],
+            "color": "#56b365"
+          },
+          "nodeID": "669e7b7fc78cdc1a73b115ec",
+          "coords": [
+            584.271503478593,
+            -515.9319730969382
+          ]
+        },
+        "669e7bb3c78cdc1a73b115f3": {
+          "type": "captureV2",
+          "data": {
+            "name": "Capture",
+            "intentScope": "GLOBAL",
+            "capture": {
+              "type": "query",
+              "variable": "last_utterance"
+            },
+            "portsV2": {
+              "byKey": {},
+              "builtIn": {
+                "next": {
+                  "type": "next",
+                  "target": "669e7b7fc78cdc1a73b115ec",
+                  "id": "669e7bb3c78cdc1a73b115f4",
+                  "data": {
+                    "points": [
+                      {
+                        "point": [
+                          740.95,
+                          -640.92
+                        ]
+                      },
+                      {
+                        "point": [
+                          764.95,
+                          -640.92
+                        ]
+                      },
+                      {
+                        "point": [
+                          764.95,
+                          -568.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          584.27,
+                          -568.42
+                        ]
+                      },
+                      {
+                        "point": [
+                          584.27,
+                          -515.93
+                        ],
+                        "toTop": true,
+                        "allowedToTop": true
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "type": "else",
+                  "target": null,
+                  "id": "669e7bb3c78cdc1a73b115f5"
+                }
+              },
+              "dynamic": []
+            }
+          },
+          "nodeID": "669e7bb3c78cdc1a73b115f3",
+          "coords": [
+            0,
+            0
+          ]
+        },
+        "669e7bb3c78cdc1a73b115f6": {
+          "type": "block",
+          "data": {
+            "name": "Capture user question",
+            "steps": [
+              "669e7bb3c78cdc1a73b115f3"
+            ],
+            "color": "#dc8879"
+          },
+          "nodeID": "669e7bb3c78cdc1a73b115f6",
+          "coords": [
+            574.952445860244,
+            -729.4164570955646
+          ]
+        }
+      },
+      "offsetX": 638.3784532606145,
+      "offsetY": 881.7489202677721,
+      "modified": 1681419809,
+      "creatorID": 3600,
+      "variables": [],
+      "menuItems": [
+        {
+          "type": "NODE",
+          "sourceID": "start00000000000000000000"
+        }
+      ],
+      "menuNodeIDs": [],
+      "intentStepIDs": [],
+      "_id": "669e7b38fb459b5250003956",
+      "diagramID": "64386e21bb106b044ea34b78",
+      "versionID": "669e7b38fb459b5250003954"
+    }
+  },
+  "flows": [],
+  "entities": [],
+  "entityVariants": [],
+  "intents": [
+    {
+      "id": "6579c6bf984565862f64b783",
+      "name": "Yes",
+      "createdByID": 3600,
+      "folderID": null,
+      "description": "Trigger this intent when the user responds affirmatively or agrees to a question or statement using words like \"yes\", \"yea\", \"yup\", \"yep\", \"ya\", \"ok\", \"okay\", \"affirmative\", \"certainly\", or \"sure\".",
+      "automaticReprompt": false,
+      "entityOrder": [],
+      "automaticRepromptSettings": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "6579c778dd3cca0fe0e0b152",
+      "name": "No",
+      "createdByID": 3600,
+      "folderID": null,
+      "description": "Trigger this intent when the user responds negatively or declines something, using words like \"no\", \"nope\", \"nay\", \"nah\", \"not now\", \"no way\", \"no thanks\", \"not\", \"nevermind\", or \"negative\".",
+      "automaticReprompt": false,
+      "entityOrder": [],
+      "automaticRepromptSettings": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "None",
+      "name": "None",
+      "createdByID": 3600,
+      "folderID": null,
+      "description": null,
+      "automaticReprompt": false,
+      "entityOrder": [],
+      "automaticRepromptSettings": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "66a25dec96adaa39395c9e82",
+      "name": "endCall",
+      "createdByID": 3600,
+      "folderID": null,
+      "description": "Trigger this whenever user wants to end the call",
+      "automaticReprompt": false,
+      "entityOrder": [],
+      "automaticRepromptSettings": null,
+      "createdAt": "2024-07-25T14:15:08.000Z",
+      "updatedAt": "2024-07-25T14:15:08.000Z",
+      "updatedByID": 3600
+    }
+  ],
+  "utterances": [
+    {
+      "id": "65d72a6aa845250f3bd1b9af",
+      "text": [
+        {
+          "text": [
+            "sure"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b0",
+      "text": [
+        {
+          "text": [
+            "certainly"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b1",
+      "text": [
+        {
+          "text": [
+            "affirmative"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b2",
+      "text": [
+        {
+          "text": [
+            "okay"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b3",
+      "text": [
+        {
+          "text": [
+            "ok"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b4",
+      "text": [
+        {
+          "text": [
+            "ya"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b5",
+      "text": [
+        {
+          "text": [
+            "yep"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b6",
+      "text": [
+        {
+          "text": [
+            "yup"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b7",
+      "text": [
+        {
+          "text": [
+            "yea"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b8",
+      "text": [
+        {
+          "text": [
+            "yes"
+          ]
+        }
+      ],
+      "intentID": "6579c6bf984565862f64b783",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9b9",
+      "text": [
+        {
+          "text": [
+            "negative"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9ba",
+      "text": [
+        {
+          "text": [
+            "nevermind"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9bb",
+      "text": [
+        {
+          "text": [
+            "not"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9bc",
+      "text": [
+        {
+          "text": [
+            "no thanks"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9bd",
+      "text": [
+        {
+          "text": [
+            "no way"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9be",
+      "text": [
+        {
+          "text": [
+            "not now"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9bf",
+      "text": [
+        {
+          "text": [
+            "nah"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9c0",
+      "text": [
+        {
+          "text": [
+            "nay"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9c1",
+      "text": [
+        {
+          "text": [
+            "nope"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "65d72a6aa845250f3bd1b9c2",
+      "text": [
+        {
+          "text": [
+            "no"
+          ]
+        }
+      ],
+      "intentID": "6579c778dd3cca0fe0e0b152",
+      "language": "en-us",
+      "createdAt": "2024-07-22T15:31:05.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e83",
+      "text": [
+        {
+          "text": [
+            "end"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e84",
+      "text": [
+        {
+          "text": [
+            "bye"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e85",
+      "text": [
+        {
+          "text": [
+            "I need to go"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e86",
+      "text": [
+        {
+          "text": [
+            "have a good day"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e87",
+      "text": [
+        {
+          "text": [
+            "I'm running late, gotta end the call"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e88",
+      "text": [
+        {
+          "text": [
+            "I'll talk to you later, bye"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e89",
+      "text": [
+        {
+          "text": [
+            "Sorry, I have to hang up now"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8a",
+      "text": [
+        {
+          "text": [
+            "It was nice talking to you, bye"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8b",
+      "text": [
+        {
+          "text": [
+            "I have another appointment, gotta go"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8c",
+      "text": [
+        {
+          "text": [
+            "wrong number, bye"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8d",
+      "text": [
+        {
+          "text": [
+            "I'm losing signal, need to end the call"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8e",
+      "text": [
+        {
+          "text": [
+            "Sorry, I have to go now, bye"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e8f",
+      "text": [
+        {
+          "text": [
+            "I'm running late, have to end the call"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e90",
+      "text": [
+        {
+          "text": [
+            "I have to go, talk to you later"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    },
+    {
+      "id": "66a25dec96adaa39395c9e91",
+      "text": [
+        {
+          "text": [
+            "I need to take another call, talk to you soon"
+          ]
+        }
+      ],
+      "intentID": "66a25dec96adaa39395c9e82",
+      "language": "en-us",
+      "createdAt": "2024-07-25T14:15:08.000Z"
+    }
+  ],
+  "requiredEntities": [],
+  "folders": [],
+  "responses": [],
+  "responseVariants": [],
+  "responseMessages": [],
+  "responseAttachments": [],
+  "responseDiscriminators": [],
+  "variables": [
+    {
+      "id": "sessions",
+      "name": "sessions",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "The number of times a particular user has opened the app.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "user_id",
+      "name": "user_id",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The user's unique ID.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "timestamp",
+      "name": "timestamp",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "UNIX timestamp (number of seconds since January 1st, 1970 at UTC).",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "platform",
+      "name": "platform",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The platform your agent is running on (e.g. \"voiceflow\").",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "intent_confidence",
+      "name": "intent_confidence",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "number",
+      "description": "The confidence interval (measured as a value from 0 to 100) for the most recently matched intent.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "last_response",
+      "name": "last_response",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The agent's last response (text/speak) in a string.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "last_event",
+      "name": "last_event",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "any",
+      "description": "The object containing the last event that the user client has triggered.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "last_utterance",
+      "name": "last_utterance",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "The user's last utterance in a text string.",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    },
+    {
+      "id": "vf_memory",
+      "name": "vf_memory",
+      "createdByID": 3600,
+      "folderID": null,
+      "color": "#515A63",
+      "isArray": false,
+      "isSystem": true,
+      "datatype": "text",
+      "description": "Last 10 user inputs and agent responses in a string (e.g. \"agent: How can i help?\"\nuser: What's the weather today?).",
+      "defaultValue": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-22T15:31:05.000Z",
+      "updatedByID": 3600
+    }
+  ],
+  "workflows": [
+    {
+      "id": "669e7b380cecec0007ac5607",
+      "name": "Home",
+      "createdByID": 3600,
+      "folderID": null,
+      "status": null,
+      "isStart": true,
+      "diagramID": "64386e21bb106b044ea34b78",
+      "assigneeID": null,
+      "description": null,
+      "createdAt": "2024-07-22T15:31:05.000Z",
+      "updatedAt": "2024-07-25T17:50:44.000Z",
+      "updatedByID": 926158
+    },
+    {
+      "id": "66a25dae96adaa39395c9e6d",
+      "name": "End Call",
+      "createdByID": 3600,
+      "folderID": null,
+      "status": null,
+      "isStart": false,
+      "diagramID": "66a25dae843f67e3e2991665",
+      "assigneeID": 3600,
+      "description": "",
+      "createdAt": "2024-07-25T14:14:07.000Z",
+      "updatedAt": "2024-07-25T14:15:50.000Z",
+      "updatedByID": 3600
+    }
+  ],
+  "attachments": [],
+  "cardButtons": [],
+  "functions": [],
+  "functionPaths": [],
+  "functionVariables": [],
+  "project": {
+    "type": "chat",
+    "name": "Simple VAPI Demo",
+    "image": "",
+    "teamID": "eMjGozMYjB",
+    "members": [],
+    "privacy": "private",
+    "platform": "webchat",
+    "_version": 1.2,
+    "linkType": "STRAIGHT",
+    "creatorID": 3600,
+    "updatedBy": 990937,
+    "apiPrivacy": "public",
+    "platformData": {
+      "invocationName": "template project general"
+    },
+    "customThemes": [],
+    "aiAssistSettings": {
+      "aiPlayground": true
+    },
+    "_id": "669e7b38fb459b5250003953",
+    "updatedAt": "2024-07-24T11:09:36.893Z",
+    "knowledgeBase": {
+      "settings": {
+        "summarization": {
+          "model": "gpt-3.5-turbo",
+          "system": "You are an FAQ AI chat assistant. Information will be provided to help answer the user's questions. Always summarize your response to be as brief as possible and be extremely concise. Your responses should be fewer than a couple of sentences.",
+          "temperature": 0.1,
+          "mode": "prompt",
+          "prompt": ""
+        },
+        "chunkStrategy": {
+          "type": "recursive_text_splitter",
+          "size": 1200,
+          "overlap": 200
+        },
+        "search": {
+          "limit": 3,
+          "metric": "IP"
+        },
+        "embeddingModel": {
+          "model": "text-embedding-3-large",
+          "size": 1024
+        }
+      },
+      "documents": {}
+    },
+    "devVersion": "669e7b38fb459b5250003954",
+    "liveVersion": "66a0d9c9d96212c8925bb2b0"
+  },
+  "_version": "1.2",
+  "variableStates": []
+}
