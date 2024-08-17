@@ -3,6 +3,11 @@ import express, { json } from 'express'
 import cors from 'cors'
 import { router } from './router.js'
 
+console.log('Starting application...');
+console.log('Node version:', process.version);
+console.log('Current directory:', process.cwd());
+console.log('Environment variables:', process.env);
+
 dotenv.config()
 
 const port = process.env.PORT || 3000
