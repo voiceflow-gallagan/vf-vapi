@@ -1,4 +1,3 @@
-// import { Request, Response } from 'express';
 import { default as axios } from 'axios'
 
 const conversationStates = new Map()
@@ -57,14 +56,9 @@ async function saveTranscript(user) {
 export const api = async (req, res) => {
   try {
     const {
-      // model,
       messages,
-      //max_tokens,
-      //temperature,
       call,
       tools,
-      //stream,
-      //...restParams
     } = req.body
 
     const lastMessage = messages?.[messages.length - 1]
@@ -144,12 +138,40 @@ export const api = async (req, res) => {
           shouldEndCall = true
           break
         }
+        case 'custom': {
+          if (trace.payload && trace.payload.type === 'transfer_call') {
+            const transferChunk = {
+              id: chatId,
+              object: 'chat.completion.chunk',
+              created: Math.floor(Date.now() / 1000),
+              model: 'dmapi',
+              choices: [
+                {
+                  index: 0,
+                  delta: {
+                    content: null,
+                    function_call: {
+                      name: 'transferCall',
+                      arguments: JSON.stringify({
+                        destination: '+971547029423' // Ersetzen Sie dies mit der tatsächlichen Weiterleitungsnummer
+                      })
+                    }
+                  },
+                  finish_reason: null,
+                },
+              ],
+            };
+            res.write(`data: ${JSON.stringify(transferChunk)}\n\n`);
+            shouldEndCall = true;
+          }
+          break;
+        }
         default: {
           // console.log('Unknown trace type', trace)
         }
       }
     }
-    // If there's no 'end' trace, send a final chunk and end the response
+    
     if (shouldEndCall) {
       const endCallChunk = {
         id: chatId,
@@ -244,7 +266,6 @@ export const api = async (req, res) => {
       res.write(`data: ${JSON.stringify(closingChunk)}\n\n`)
       res.write(`data: [DONE]\n\n`)
     } else {
-      // If there's no 'end' trace, send a final chunk and end the response
       const finalChunk = {
         id: chatId,
         object: 'chat.completion.chunk',
