@@ -94,3 +94,9 @@ On VAPI, select the assistant you've just created and click on the **Talk** butt
 ![Test](./doc/talk_button.png)
 
 
+<a href="https://trackgit.com">
+<img src="https://us-central1-trackgit-analytics.cloudfunctions.net/token/ping/m0ct6kqg6un750li0f7m" alt="trackgit-views" />
+</a>
+<a href="https://trackgit.com">
+<img src="https://api.swetrix.com/log/noscript?pid=fnSZorwAce9B" alt="" referrerpolicy="no-referrer-when-downgrade" />
+</a>
