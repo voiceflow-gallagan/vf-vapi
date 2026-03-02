@@ -100,3 +100,5 @@ On VAPI, select the assistant you've just created and click on the **Talk** butt
 <a href="https://trackgit.com">
 <img src="https://api.swetrix.com/log/noscript?pid=fnSZorwAce9B" alt="" referrerpolicy="no-referrer-when-downgrade" />
 </a>
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=voiceflow-community_vf-vapi&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=voiceflow-community_vf-vapi)
